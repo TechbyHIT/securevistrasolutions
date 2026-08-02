@@ -1,0 +1,1418 @@
+{
+  "canonical": [
+    {
+      "slug": "asraonagar",
+      "name": "a. s. rao nagar"
+    },
+    {
+      "slug": "abdullapurmet",
+      "name": "abdullapurmet"
+    },
+    {
+      "slug": "abids",
+      "name": "abids"
+    },
+    {
+      "slug": "acguards",
+      "name": "ac guards"
+    },
+    {
+      "slug": "adarshnagar",
+      "name": "adarsh nagar"
+    },
+    {
+      "slug": "adibatla",
+      "name": "adibatla"
+    },
+    {
+      "slug": "adikmet",
+      "name": "adikmet"
+    },
+    {
+      "slug": "afzalgunj",
+      "name": "afzal gunj"
+    },
+    {
+      "slug": "agapura",
+      "name": "agapura"
+    },
+    {
+      "slug": "ahmednagar",
+      "name": "ahmed nagar"
+    },
+    {
+      "slug": "alijahkotla",
+      "name": "alijah kotla"
+    },
+    {
+      "slug": "alkapurtownship",
+      "name": "alkapur township"
+    },
+    {
+      "slug": "allwyncolony",
+      "name": "allwyn colony"
+    },
+    {
+      "slug": "almasguda",
+      "name": "almasguda"
+    },
+    {
+      "slug": "alwal",
+      "name": "alwal"
+    },
+    {
+      "slug": "amberpet",
+      "name": "amberpet"
+    },
+    {
+      "slug": "ameenpur",
+      "name": "ameenpur"
+    },
+    {
+      "slug": "ameerpet",
+      "name": "ameerpet"
+    },
+    {
+      "slug": "ammuguda",
+      "name": "ammuguda"
+    },
+    {
+      "slug": "anandbagh",
+      "name": "anand bagh"
+    },
+    {
+      "slug": "anandnagarcolony",
+      "name": "anand nagar colony"
+    },
+    {
+      "slug": "anjaiahnagar",
+      "name": "anjaiah nagar"
+    },
+    {
+      "slug": "annojiguda",
+      "name": "annojiguda"
+    },
+    {
+      "slug": "appajunction",
+      "name": "appa junction"
+    },
+    {
+      "slug": "aramghar",
+      "name": "aramghar"
+    },
+    {
+      "slug": "ashoknagar",
+      "name": "ashok nagar"
+    },
+    {
+      "slug": "asifnagar",
+      "name": "asif nagar"
+    },
+    {
+      "slug": "attapur",
+      "name": "attapur"
+    },
+    {
+      "slug": "autonagar",
+      "name": "auto nagar"
+    },
+    {
+      "slug": "azamabad",
+      "name": "azamabad"
+    },
+    {
+      "slug": "azampura",
+      "name": "azampura"
+    },
+    {
+      "slug": "aziznagar",
+      "name": "aziz nagar"
+    },
+    {
+      "slug": "bnreddynagar",
+      "name": "b n reddy nagar"
+    },
+    {
+      "slug": "bachupally",
+      "name": "bachupally"
+    },
+    {
+      "slug": "badangpet",
+      "name": "badangpet"
+    },
+    {
+      "slug": "bahadurpally",
+      "name": "bahadurpally"
+    },
+    {
+      "slug": "bahadurpura",
+      "name": "bahadurpura"
+    },
+    {
+      "slug": "bairamalguda",
+      "name": "bairamalguda"
+    },
+    {
+      "slug": "balanagar",
+      "name": "balanagar"
+    },
+    {
+      "slug": "balapur",
+      "name": "balapur"
+    },
+    {
+      "slug": "balkampet",
+      "name": "balkampet"
+    },
+    {
+      "slug": "bandlaguda",
+      "name": "bandlaguda"
+    },
+    {
+      "slug": "bandlagudajagir",
+      "name": "bandlaguda jagir"
+    },
+    {
+      "slug": "banjarahills",
+      "name": "banjara hills"
+    },
+    {
+      "slug": "barkas",
+      "name": "barkas"
+    },
+    {
+      "slug": "barkatpura",
+      "name": "barkatpura"
+    },
+    {
+      "slug": "basheerbagh",
+      "name": "basheerbagh"
+    },
+    {
+      "slug": "beeramguda",
+      "name": "beeramguda"
+    },
+    {
+      "slug": "begumbazaar",
+      "name": "begum bazaar"
+    },
+    {
+      "slug": "begumpet",
+      "name": "begumpet"
+    },
+    {
+      "slug": "bhagamberpet",
+      "name": "bhag amberpet"
+    },
+    {
+      "slug": "bharatnagar",
+      "name": "bharat nagar"
+    },
+    {
+      "slug": "bheltownship",
+      "name": "bhel township"
+    },
+    {
+      "slug": "bhoiguda",
+      "name": "bhoiguda"
+    },
+    {
+      "slug": "bholakpur",
+      "name": "bholakpur"
+    },
+    {
+      "slug": "boduppal",
+      "name": "boduppal"
+    },
+    {
+      "slug": "boggulkunta",
+      "name": "boggulkunta"
+    },
+    {
+      "slug": "bolarum",
+      "name": "bolarum"
+    },
+    {
+      "slug": "bongloor",
+      "name": "bongloor"
+    },
+    {
+      "slug": "borabanda",
+      "name": "borabanda"
+    },
+    {
+      "slug": "botanicalgarden",
+      "name": "botanical garden"
+    },
+    {
+      "slug": "boudhanagar",
+      "name": "boudha nagar"
+    },
+    {
+      "slug": "bowenpally",
+      "name": "bowenpally"
+    },
+    {
+      "slug": "bowrampet",
+      "name": "bowrampet"
+    },
+    {
+      "slug": "brahmanwadi",
+      "name": "brahmanwadi"
+    },
+    {
+      "slug": "budvel",
+      "name": "budvel"
+    },
+    {
+      "slug": "chaderghat",
+      "name": "chaderghat"
+    },
+    {
+      "slug": "chaitanyapuri",
+      "name": "chaitanyapuri"
+    },
+    {
+      "slug": "champapet",
+      "name": "champapet"
+    },
+    {
+      "slug": "chanchalguda",
+      "name": "chanchalguda"
+    },
+    {
+      "slug": "chandanagar",
+      "name": "chandanagar"
+    },
+    {
+      "slug": "chandrayanagutta",
+      "name": "chandrayanagutta"
+    },
+    {
+      "slug": "charminar",
+      "name": "charminar"
+    },
+    {
+      "slug": "chengicherla",
+      "name": "chengicherla"
+    },
+    {
+      "slug": "cherlapally",
+      "name": "cherlapally"
+    },
+    {
+      "slug": "chevella",
+      "name": "chevella"
+    },
+    {
+      "slug": "chikkadpally",
+      "name": "chikkadpally"
+    },
+    {
+      "slug": "chilakalguda",
+      "name": "chilakalguda"
+    },
+    {
+      "slug": "chilkalguda",
+      "name": "chilkalguda"
+    },
+    {
+      "slug": "chilkur",
+      "name": "chilkur"
+    },
+    {
+      "slug": "chintal",
+      "name": "chintal"
+    },
+    {
+      "slug": "chintalkunta",
+      "name": "chintalkunta"
+    },
+    {
+      "slug": "chintalmet",
+      "name": "chintalmet"
+    },
+    {
+      "slug": "chowmahalla",
+      "name": "chowmahalla"
+    },
+    {
+      "slug": "ddcolony",
+      "name": "d d colony"
+    },
+    {
+      "slug": "dabirpura",
+      "name": "dabirpura"
+    },
+    {
+      "slug": "dammaiguda",
+      "name": "dammaiguda"
+    },
+    {
+      "slug": "darulshifa",
+      "name": "darulshifa"
+    },
+    {
+      "slug": "dattatreyanagar",
+      "name": "dattatreya nagar"
+    },
+    {
+      "slug": "dhoolpet",
+      "name": "dhoolpet"
+    },
+    {
+      "slug": "dilsukhnagar",
+      "name": "dilsukhnagar"
+    },
+    {
+      "slug": "domalguda",
+      "name": "domalguda"
+    },
+    {
+      "slug": "doodhbowli",
+      "name": "doodh bowli"
+    },
+    {
+      "slug": "drasraonagar",
+      "name": "dr a. s. rao nagar"
+    },
+    {
+      "slug": "dundigal",
+      "name": "dundigal"
+    },
+    {
+      "slug": "eastanandbagh",
+      "name": "east anandbagh"
+    },
+    {
+      "slug": "eastmarredpally",
+      "name": "east marredpally"
+    },
+    {
+      "slug": "ecil",
+      "name": "ecil"
+    },
+    {
+      "slug": "edibazaar",
+      "name": "edi bazaar"
+    },
+    {
+      "slug": "erragadda",
+      "name": "erragadda"
+    },
+    {
+      "slug": "erramanzil",
+      "name": "erramanzil"
+    },
+    {
+      "slug": "falaknuma",
+      "name": "falaknuma"
+    },
+    {
+      "slug": "fatehdarwaza",
+      "name": "fateh darwaza"
+    },
+    {
+      "slug": "fatehnagar",
+      "name": "fateh nagar"
+    },
+    {
+      "slug": "feelkhana",
+      "name": "feelkhana"
+    },
+    {
+      "slug": "filmnagar",
+      "name": "film nagar"
+    },
+    {
+      "slug": "financialdistrict",
+      "name": "financial district"
+    },
+    {
+      "slug": "gachibowli",
+      "name": "gachibowli"
+    },
+    {
+      "slug": "gaganpahad",
+      "name": "gaganpahad"
+    },
+    {
+      "slug": "gajularamaram",
+      "name": "gajularamaram"
+    },
+    {
+      "slug": "gandhinagar",
+      "name": "gandhi nagar"
+    },
+    {
+      "slug": "gandimaisamma",
+      "name": "gandimaisamma"
+    },
+    {
+      "slug": "gandipet",
+      "name": "gandipet"
+    },
+    {
+      "slug": "generalbazaar",
+      "name": "general bazaar"
+    },
+    {
+      "slug": "ghansibazaar",
+      "name": "ghansi bazaar"
+    },
+    {
+      "slug": "ghatkesar",
+      "name": "ghatkesar"
+    },
+    {
+      "slug": "golconda",
+      "name": "golconda"
+    },
+    {
+      "slug": "gopanpally",
+      "name": "gopanpally"
+    },
+    {
+      "slug": "goshamahal",
+      "name": "goshamahal"
+    },
+    {
+      "slug": "gowlidoddy",
+      "name": "gowlidoddy"
+    },
+    {
+      "slug": "gudimalkapur",
+      "name": "gudimalkapur"
+    },
+    {
+      "slug": "gundlapochampally",
+      "name": "gundlapochampally"
+    },
+    {
+      "slug": "habsiguda",
+      "name": "habsiguda"
+    },
+    {
+      "slug": "hafeezpet",
+      "name": "hafeezpet"
+    },
+    {
+      "slug": "hakimpet",
+      "name": "hakimpet"
+    },
+    {
+      "slug": "hasmathpet",
+      "name": "hasmathpet"
+    },
+    {
+      "slug": "hastinapuram",
+      "name": "hastinapuram"
+    },
+    {
+      "slug": "hayathnagar",
+      "name": "hayathnagar"
+    },
+    {
+      "slug": "himayatsagar",
+      "name": "himayat sagar"
+    },
+    {
+      "slug": "himayatnagar",
+      "name": "himayatnagar"
+    },
+    {
+      "slug": "hiteccity",
+      "name": "hitec city"
+    },
+    {
+      "slug": "hmtcolony",
+      "name": "hmt colony"
+    },
+    {
+      "slug": "humayunnagar",
+      "name": "humayun nagar"
+    },
+    {
+      "slug": "hydernagar",
+      "name": "hyder nagar"
+    },
+    {
+      "slug": "hyderguda",
+      "name": "hyderguda"
+    },
+    {
+      "slug": "hydershakote",
+      "name": "hydershakote"
+    },
+    {
+      "slug": "ibrahimbagh",
+      "name": "ibrahim bagh"
+    },
+    {
+      "slug": "ibrahimpatnam",
+      "name": "ibrahimpatnam"
+    },
+    {
+      "slug": "injapur",
+      "name": "injapur"
+    },
+    {
+      "slug": "isnapur",
+      "name": "isnapur"
+    },
+    {
+      "slug": "jahanuma",
+      "name": "jahanuma"
+    },
+    {
+      "slug": "jalpally",
+      "name": "jalpally"
+    },
+    {
+      "slug": "jambagh",
+      "name": "jam bagh"
+    },
+    {
+      "slug": "jamesstreet",
+      "name": "james street"
+    },
+    {
+      "slug": "jawaharnagar",
+      "name": "jawahar nagar"
+    },
+    {
+      "slug": "jeedimetla",
+      "name": "jeedimetla"
+    },
+    {
+      "slug": "jillelguda",
+      "name": "jillelguda"
+    },
+    {
+      "slug": "jiyaguda",
+      "name": "jiyaguda"
+    },
+    {
+      "slug": "jntu",
+      "name": "jntu"
+    },
+    {
+      "slug": "jubileehills",
+      "name": "jubilee hills"
+    },
+    {
+      "slug": "kachiguda",
+      "name": "kachiguda"
+    },
+    {
+      "slug": "kakatiyanagar",
+      "name": "kakatiya nagar"
+    },
+    {
+      "slug": "kalapathar",
+      "name": "kalapathar"
+    },
+    {
+      "slug": "kalasiguda",
+      "name": "kalasiguda"
+    },
+    {
+      "slug": "kanchanbagh",
+      "name": "kanchanbagh"
+    },
+    {
+      "slug": "kandi",
+      "name": "kandi"
+    },
+    {
+      "slug": "kandlakoya",
+      "name": "kandlakoya"
+    },
+    {
+      "slug": "kapra",
+      "name": "kapra"
+    },
+    {
+      "slug": "karkhana",
+      "name": "karkhana"
+    },
+    {
+      "slug": "karmanghat",
+      "name": "karmanghat"
+    },
+    {
+      "slug": "karwan",
+      "name": "karwan"
+    },
+    {
+      "slug": "katedan",
+      "name": "katedan"
+    },
+    {
+      "slug": "kavadiguda",
+      "name": "kavadiguda"
+    },
+    {
+      "slug": "keesara",
+      "name": "keesara"
+    },
+    {
+      "slug": "khairatabad",
+      "name": "khairatabad"
+    },
+    {
+      "slug": "khajaguda",
+      "name": "khajaguda"
+    },
+    {
+      "slug": "khanamet",
+      "name": "khanamet"
+    },
+    {
+      "slug": "khilwat",
+      "name": "khilwat"
+    },
+    {
+      "slug": "kingkoti",
+      "name": "king koti"
+    },
+    {
+      "slug": "kishanbagh",
+      "name": "kishanbagh"
+    },
+    {
+      "slug": "kismatpur",
+      "name": "kismatpur"
+    },
+    {
+      "slug": "koheda",
+      "name": "koheda"
+    },
+    {
+      "slug": "kokapet",
+      "name": "kokapet"
+    },
+    {
+      "slug": "kollur",
+      "name": "kollur"
+    },
+    {
+      "slug": "kompally",
+      "name": "kompally"
+    },
+    {
+      "slug": "kondapur",
+      "name": "kondapur"
+    },
+    {
+      "slug": "kongarakalan",
+      "name": "kongara kalan"
+    },
+    {
+      "slug": "kothaguda",
+      "name": "kothaguda"
+    },
+    {
+      "slug": "kothapet",
+      "name": "kothapet"
+    },
+    {
+      "slug": "kothur",
+      "name": "kothur"
+    },
+    {
+      "slug": "koti",
+      "name": "koti"
+    },
+    {
+      "slug": "kowkoor",
+      "name": "kowkoor"
+    },
+    {
+      "slug": "kphbcolony",
+      "name": "kphb colony"
+    },
+    {
+      "slug": "krishnanagar",
+      "name": "krishna nagar"
+    },
+    {
+      "slug": "kukatpally",
+      "name": "kukatpally"
+    },
+    {
+      "slug": "kushaiguda",
+      "name": "kushaiguda"
+    },
+    {
+      "slug": "lbnagar",
+      "name": "l b nagar"
+    },
+    {
+      "slug": "lakdikapul",
+      "name": "lakdikapul"
+    },
+    {
+      "slug": "lalapet",
+      "name": "lalapet"
+    },
+    {
+      "slug": "lallaguda",
+      "name": "lallaguda"
+    },
+    {
+      "slug": "langarhouz",
+      "name": "langar houz"
+    },
+    {
+      "slug": "lingampally",
+      "name": "lingampally"
+    },
+    {
+      "slug": "lowertankbund",
+      "name": "lower tank bund"
+    },
+    {
+      "slug": "madhapur",
+      "name": "madhapur"
+    },
+    {
+      "slug": "madinaguda",
+      "name": "madinaguda"
+    },
+    {
+      "slug": "mahendrahills",
+      "name": "mahendra hills"
+    },
+    {
+      "slug": "maheshwaram",
+      "name": "maheshwaram"
+    },
+    {
+      "slug": "mailardevpally",
+      "name": "mailardevpally"
+    },
+    {
+      "slug": "malakpet",
+      "name": "malakpet"
+    },
+    {
+      "slug": "malkajgiri",
+      "name": "malkajgiri"
+    },
+    {
+      "slug": "mallampet",
+      "name": "mallampet"
+    },
+    {
+      "slug": "mallapur",
+      "name": "mallapur"
+    },
+    {
+      "slug": "mallepally",
+      "name": "mallepally"
+    },
+    {
+      "slug": "mamidipally",
+      "name": "mamidipally"
+    },
+    {
+      "slug": "mangalhat",
+      "name": "mangalhat"
+    },
+    {
+      "slug": "manikonda",
+      "name": "manikonda"
+    },
+    {
+      "slug": "mansoorabad",
+      "name": "mansoorabad"
+    },
+    {
+      "slug": "marredpally",
+      "name": "marredpally"
+    },
+    {
+      "slug": "masabtank",
+      "name": "masab tank"
+    },
+    {
+      "slug": "masjidbanda",
+      "name": "masjid banda"
+    },
+    {
+      "slug": "medchal",
+      "name": "medchal"
+    },
+    {
+      "slug": "medipally",
+      "name": "medipally"
+    },
+    {
+      "slug": "meerpet",
+      "name": "meerpet"
+    },
+    {
+      "slug": "mehdipatnam",
+      "name": "mehdipatnam"
+    },
+    {
+      "slug": "mettuguda",
+      "name": "mettuguda"
+    },
+    {
+      "slug": "mgroad",
+      "name": "mg road"
+    },
+    {
+      "slug": "miyapur",
+      "name": "miyapur"
+    },
+    {
+      "slug": "moghalpura",
+      "name": "moghalpura"
+    },
+    {
+      "slug": "moinabad",
+      "name": "moinabad"
+    },
+    {
+      "slug": "moosapet",
+      "name": "moosapet"
+    },
+    {
+      "slug": "moosarambagh",
+      "name": "moosarambagh"
+    },
+    {
+      "slug": "moulaali",
+      "name": "moula ali"
+    },
+    {
+      "slug": "muchintal",
+      "name": "muchintal"
+    },
+    {
+      "slug": "mughalpura",
+      "name": "mughalpura"
+    },
+    {
+      "slug": "musheerabad",
+      "name": "musheerabad"
+    },
+    {
+      "slug": "muthangi",
+      "name": "muthangi"
+    },
+    {
+      "slug": "nacharam",
+      "name": "nacharam"
+    },
+    {
+      "slug": "nadergul",
+      "name": "nadergul"
+    },
+    {
+      "slug": "nagaram",
+      "name": "nagaram"
+    },
+    {
+      "slug": "nagole",
+      "name": "nagole"
+    },
+    {
+      "slug": "nallagandla",
+      "name": "nallagandla"
+    },
+    {
+      "slug": "nallakunta",
+      "name": "nallakunta"
+    },
+    {
+      "slug": "nampally",
+      "name": "nampally"
+    },
+    {
+      "slug": "nanakramguda",
+      "name": "nanakramguda"
+    },
+    {
+      "slug": "nanalnagar",
+      "name": "nanal nagar"
+    },
+    {
+      "slug": "nandigama",
+      "name": "nandigama"
+    },
+    {
+      "slug": "narapally",
+      "name": "narapally"
+    },
+    {
+      "slug": "narayanaguda",
+      "name": "narayanaguda"
+    },
+    {
+      "slug": "narsingi",
+      "name": "narsingi"
+    },
+    {
+      "slug": "nawabsahebkunta",
+      "name": "nawab saheb kunta"
+    },
+    {
+      "slug": "necklaceroad",
+      "name": "necklace road"
+    },
+    {
+      "slug": "neknampur",
+      "name": "neknampur"
+    },
+    {
+      "slug": "neopolis",
+      "name": "neopolis"
+    },
+    {
+      "slug": "neredmet",
+      "name": "neredmet"
+    },
+    {
+      "slug": "newbowenpally",
+      "name": "new bowenpally"
+    },
+    {
+      "slug": "newmalakpet",
+      "name": "new malakpet"
+    },
+    {
+      "slug": "nizampet",
+      "name": "nizampet"
+    },
+    {
+      "slug": "noorkhanbazaar",
+      "name": "noor khan bazaar"
+    },
+    {
+      "slug": "oldalwal",
+      "name": "old alwal"
+    },
+    {
+      "slug": "oldbowenpally",
+      "name": "old bowenpally"
+    },
+    {
+      "slug": "oldcity",
+      "name": "old city"
+    },
+    {
+      "slug": "osmannagar",
+      "name": "osman nagar"
+    },
+    {
+      "slug": "osmaniauniversity",
+      "name": "osmania university"
+    },
+    {
+      "slug": "padmaraonagar",
+      "name": "padmarao nagar"
+    },
+    {
+      "slug": "pahadishareef",
+      "name": "pahadi shareef"
+    },
+    {
+      "slug": "panmandi",
+      "name": "pan mandi"
+    },
+    {
+      "slug": "panjagutta",
+      "name": "panjagutta"
+    },
+    {
+      "slug": "paradise",
+      "name": "paradise"
+    },
+    {
+      "slug": "parsigutta",
+      "name": "parsigutta"
+    },
+    {
+      "slug": "patancheru",
+      "name": "patancheru"
+    },
+    {
+      "slug": "pathergatti",
+      "name": "pathergatti"
+    },
+    {
+      "slug": "patighanpur",
+      "name": "patighanpur"
+    },
+    {
+      "slug": "patny",
+      "name": "patny"
+    },
+    {
+      "slug": "peddaamberpet",
+      "name": "pedda amberpet"
+    },
+    {
+      "slug": "peerancheru",
+      "name": "peerancheru"
+    },
+    {
+      "slug": "peerzadiguda",
+      "name": "peerzadiguda"
+    },
+    {
+      "slug": "petbasheerabad",
+      "name": "pet basheerabad"
+    },
+    {
+      "slug": "petlaburj",
+      "name": "petlaburj"
+    },
+    {
+      "slug": "picket",
+      "name": "picket"
+    },
+    {
+      "slug": "pocharam",
+      "name": "pocharam"
+    },
+    {
+      "slug": "pragathinagar",
+      "name": "pragathi nagar"
+    },
+    {
+      "slug": "prakashnagar",
+      "name": "prakash nagar"
+    },
+    {
+      "slug": "puppalaguda",
+      "name": "puppalaguda"
+    },
+    {
+      "slug": "puranapul",
+      "name": "puranapul"
+    },
+    {
+      "slug": "puranihaveli",
+      "name": "purani haveli"
+    },
+    {
+      "slug": "quthbullapur",
+      "name": "quthbullapur"
+    },
+    {
+      "slug": "raidurg",
+      "name": "raidurg"
+    },
+    {
+      "slug": "rajbhavanroad",
+      "name": "raj bhavan road"
+    },
+    {
+      "slug": "rajendranagar",
+      "name": "rajendranagar"
+    },
+    {
+      "slug": "ramachandrapuram",
+      "name": "ramachandrapuram"
+    },
+    {
+      "slug": "ramanthapur",
+      "name": "ramanthapur"
+    },
+    {
+      "slug": "ramnagar",
+      "name": "ramnagar"
+    },
+    {
+      "slug": "rampally",
+      "name": "rampally"
+    },
+    {
+      "slug": "ranigunj",
+      "name": "ranigunj"
+    },
+    {
+      "slug": "rasoolpura",
+      "name": "rasoolpura"
+    },
+    {
+      "slug": "redhills",
+      "name": "red hills"
+    },
+    {
+      "slug": "reinbazaar",
+      "name": "rein bazaar"
+    },
+    {
+      "slug": "riyasatnagar",
+      "name": "riyasat nagar"
+    },
+    {
+      "slug": "rtccrossroads",
+      "name": "rtc cross roads"
+    },
+    {
+      "slug": "rudraram",
+      "name": "rudraram"
+    },
+    {
+      "slug": "sdroad",
+      "name": "s d road"
+    },
+    {
+      "slug": "srnagar",
+      "name": "s r nagar"
+    },
+    {
+      "slug": "safilguda",
+      "name": "safilguda"
+    },
+    {
+      "slug": "saidabad",
+      "name": "saidabad"
+    },
+    {
+      "slug": "saifabad",
+      "name": "saifabad"
+    },
+    {
+      "slug": "sainikpuri",
+      "name": "sainikpuri"
+    },
+    {
+      "slug": "saleemnagar",
+      "name": "saleem nagar"
+    },
+    {
+      "slug": "sanathnagar",
+      "name": "sanath nagar"
+    },
+    {
+      "slug": "santoshnagar",
+      "name": "santosh nagar"
+    },
+    {
+      "slug": "saroornagar",
+      "name": "saroornagar"
+    },
+    {
+      "slug": "satamrai",
+      "name": "satamrai"
+    },
+    {
+      "slug": "secunderabad",
+      "name": "secunderabad"
+    },
+    {
+      "slug": "seventombs",
+      "name": "seven tombs"
+    },
+    {
+      "slug": "shadnagar",
+      "name": "shadnagar"
+    },
+    {
+      "slug": "shahalibanda",
+      "name": "shah ali banda"
+    },
+    {
+      "slug": "shaikpet",
+      "name": "shaikpet"
+    },
+    {
+      "slug": "shamirpet",
+      "name": "shamirpet"
+    },
+    {
+      "slug": "shamshabad",
+      "name": "shamshabad"
+    },
+    {
+      "slug": "shankarpally",
+      "name": "shankarpally"
+    },
+    {
+      "slug": "shapurnagar",
+      "name": "shapur nagar"
+    },
+    {
+      "slug": "shivrampally",
+      "name": "shivrampally"
+    },
+    {
+      "slug": "siddiamberbazaar",
+      "name": "siddiamber bazaar"
+    },
+    {
+      "slug": "sikhvillage",
+      "name": "sikh village"
+    },
+    {
+      "slug": "sitaphalmandi",
+      "name": "sitaphalmandi"
+    },
+    {
+      "slug": "somajiguda",
+      "name": "somajiguda"
+    },
+    {
+      "slug": "srinagarcolony",
+      "name": "sri nagar colony"
+    },
+    {
+      "slug": "subhashnagar",
+      "name": "subhash nagar"
+    },
+    {
+      "slug": "suchitra",
+      "name": "suchitra"
+    },
+    {
+      "slug": "sultanbazaar",
+      "name": "sultan bazaar"
+    },
+    {
+      "slug": "suncity",
+      "name": "sun city"
+    },
+    {
+      "slug": "suraram",
+      "name": "suraram"
+    },
+    {
+      "slug": "tadban",
+      "name": "tadban"
+    },
+    {
+      "slug": "tadbund",
+      "name": "tadbund"
+    },
+    {
+      "slug": "talabkatta",
+      "name": "talab katta"
+    },
+    {
+      "slug": "tappachabutra",
+      "name": "tappachabutra"
+    },
+    {
+      "slug": "tarnaka",
+      "name": "tarnaka"
+    },
+    {
+      "slug": "tellapur",
+      "name": "tellapur"
+    },
+    {
+      "slug": "theatreroad",
+      "name": "theatre road"
+    },
+    {
+      "slug": "thumkunta",
+      "name": "thumkunta"
+    },
+    {
+      "slug": "tilaknagar",
+      "name": "tilak nagar"
+    },
+    {
+      "slug": "tolichowki",
+      "name": "tolichowki"
+    },
+    {
+      "slug": "trimulgherry",
+      "name": "trimulgherry"
+    },
+    {
+      "slug": "tukkuguda",
+      "name": "tukkuguda"
+    },
+    {
+      "slug": "turkayamjal",
+      "name": "turkayamjal"
+    },
+    {
+      "slug": "uppal",
+      "name": "uppal"
+    },
+    {
+      "slug": "uppalbhagat",
+      "name": "uppal bhagat"
+    },
+    {
+      "slug": "uppuguda",
+      "name": "uppuguda"
+    },
+    {
+      "slug": "vanasthalipuram",
+      "name": "vanasthalipuram"
+    },
+    {
+      "slug": "velimela",
+      "name": "velimela"
+    },
+    {
+      "slug": "vengalraonagar",
+      "name": "vengal rao nagar"
+    },
+    {
+      "slug": "vidyanagar",
+      "name": "vidyanagar"
+    },
+    {
+      "slug": "vijayanagarcolony",
+      "name": "vijayanagar colony"
+    },
+    {
+      "slug": "vivekanandanagar",
+      "name": "vivekananda nagar"
+    },
+    {
+      "slug": "westmarredpally",
+      "name": "west marredpally"
+    },
+    {
+      "slug": "whitefields",
+      "name": "whitefields"
+    },
+    {
+      "slug": "yakutpura",
+      "name": "yakutpura"
+    },
+    {
+      "slug": "yapral",
+      "name": "yapral"
+    },
+    {
+      "slug": "yellareddyguda",
+      "name": "yellareddyguda"
+    },
+    {
+      "slug": "yousufguda",
+      "name": "yousufguda"
+    },
+    {
+      "slug": "zamistanpur",
+      "name": "zamistanpur"
+    },
+    {
+      "slug": "ziaguda",
+      "name": "ziaguda"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "jambagh",
+      "canonicalSlug": "jam bagh"
+    },
+    {
+      "alias": "santoshnagar",
+      "canonicalSlug": "santosh nagar"
+    }
+  ]
+}
