@@ -1,16 +1,20 @@
+const path = require("path");
+
 /** @type {import('pm2').StartOptions} */
 module.exports = {
   apps: [
     {
       name: "securevista",
-      cwd: __dirname + "/.next/standalone",
+      cwd: path.join(__dirname, ".next", "standalone"),
       script: "server.js",
       instances: 1,
       exec_mode: "fork",
       max_memory_restart: "512M",
+      autorestart: true,
+      time: true,
       env: {
         NODE_ENV: "production",
-        PORT: 3005,
+        PORT: "3005",
         HOSTNAME: "0.0.0.0",
         NEXT_PUBLIC_SITE_URL: "https://securevistasolutions.in",
         NEXT_PUBLIC_BUSINESS_NAME: "Secure Vista Solutions",
