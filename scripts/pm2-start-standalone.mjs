@@ -18,7 +18,7 @@ if (!existsSync(serverJs)) {
 
 syncStandaloneAssets();
 
-const port = process.env.PORT ?? "3000";
+const port = process.env.PORT ?? "3005";
 const result = spawnSync(
   "pm2",
   ["start", "ecosystem.config.cjs", "--update-env"],
