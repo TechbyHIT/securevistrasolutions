@@ -13,7 +13,11 @@ echo "==> Pulling latest"
 git pull --ff-only origin main
 
 echo "==> Installing dependencies"
-npm ci
+if ! npm ci; then
+  echo "npm ci failed (lock out of sync). Falling back to npm install..."
+  rm -rf node_modules
+  npm install
+fi
 
 echo "==> Building (standalone)"
 npm run build

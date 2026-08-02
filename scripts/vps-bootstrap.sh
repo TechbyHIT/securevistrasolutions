@@ -66,7 +66,11 @@ if [[ ! -f .env ]]; then
 fi
 
 echo "==> [5/8] Build + PM2"
-npm ci
+if ! npm ci; then
+  echo "npm ci failed (lock out of sync). Falling back to npm install..."
+  rm -rf node_modules
+  npm install
+fi
 npm run build
 node -e "import('./scripts/lib/sync-standalone-assets.mjs').then(m => m.syncStandaloneAssets())"
 export PORT HOSTNAME=0.0.0.0
