@@ -1,4 +1,4 @@
-import { KEYWORD_INTENTS, getHighIntentKeywordIntents } from "@/data/keyword-intents";
+import { KEYWORD_INTENTS, getSitemapKeywordIntents } from "@/data/keyword-intents";
 import { getPublishedLocations } from "@/data/initial-locations";
 import { getServedAreas } from "@/data/initial-areas";
 import { getPublishedServices } from "@/data/initial-services";
@@ -120,7 +120,7 @@ export function countProgrammaticIndexablePages(): {
   const areas = flags.areas ? ctx.areas.length : 0;
   const serviceAreas = flags.serviceAreas ? ctx.areas.length * ctx.services.length : 0;
   const serviceAreaIntents = flags.serviceAreaIntents
-    ? ctx.areas.length * getHighIntentKeywordIntents().length
+    ? ctx.areas.length * getSitemapKeywordIntents().length
     : 0;
   const invisibleGrillsInstallation = flags.invisibleGrillsInstallation
     ? ctx.areas.length
@@ -142,7 +142,7 @@ export function* iterateProgrammaticPathEntries(
   if (!ctx) return;
 
   const { location, areas, services } = ctx;
-  const highIntents = getHighIntentKeywordIntents();
+  const highIntents = getSitemapKeywordIntents();
   const updatedAt = new Date().toISOString();
 
   if (!group || group === "area") {

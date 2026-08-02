@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { buildSitemapIndexXml } from "@/lib/sitemap/get-sitemap-entries";
 
-export const dynamic = "force-dynamic";
 export const revalidate = 86400;
 
 /** Root sitemap index listing every sharded urlset (all indexable URLs). */

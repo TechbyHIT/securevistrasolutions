@@ -5,7 +5,7 @@ import {
   getProgrammaticContext,
   iterateProgrammaticPathEntries,
 } from "@/lib/publishing/enumerate-programmatic-pages";
-import { countHighIntentKeywordIntents } from "@/data/keyword-intents";
+import { getSitemapKeywordIntents } from "@/data/keyword-intents";
 
 export type SitemapEntry = {
   url: string;
@@ -163,7 +163,7 @@ export function countSitemapEntries(group?: string): number {
 
   switch (group) {
     case "service-area-intent":
-      return ctx.areas.length * countHighIntentKeywordIntents();
+      return ctx.areas.length * getSitemapKeywordIntents().length;
     case "invisible-grills-installation":
       return ctx.areas.length;
     case "service-area":

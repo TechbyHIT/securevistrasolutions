@@ -3,8 +3,17 @@ import {
   isSitemapProgrammaticGroup,
   SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS,
 } from "@/config/sitemap-indexing";
-import { getHighIntentKeywordIntents } from "@/data/keyword-intents";
+import { getSitemapKeywordIntents } from "@/data/keyword-intents";
 import type { PageRecord } from "@/types/page";
+
+let sitemapIntentSlugSet: Set<string> | null = null;
+
+function getSitemapIntentSlugSet(): Set<string> {
+  if (!sitemapIntentSlugSet) {
+    sitemapIntentSlugSet = new Set(getSitemapKeywordIntents().map((intent) => intent.slug));
+  }
+  return sitemapIntentSlugSet;
+}
 
 export function isSitemapIndexablePage(page: PageRecord): boolean {
   const group = page.sitemapGroup ?? "core";
@@ -23,7 +32,7 @@ export function isSitemapIndexablePage(page: PageRecord): boolean {
 
   if (page.pageType === "service-area-intent" || group === "service-area-intent") {
     if (!page.intentSlug) return false;
-    return getHighIntentKeywordIntents().some((intent) => intent.slug === page.intentSlug);
+    return getSitemapIntentSlugSet().has(page.intentSlug);
   }
 
   if (isSitemapProgrammaticGroup(group)) {

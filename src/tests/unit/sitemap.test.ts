@@ -70,11 +70,14 @@ describe("sitemap indexability", () => {
     expect(entries.some((e) => e.url.includes("invisible-grills-in-hyderabad"))).toBe(true);
   });
 
-  it("reports high-intent intent coverage across shards", () => {
+  it("keeps intent sitemap volume Google-crawlable", () => {
     const intentTotal = countSitemapEntries("service-area-intent");
     const shards = listSitemapShards().filter((s) => s.group === "service-area-intent");
     expect(intentTotal).toBeGreaterThan(1000);
-    expect(shards.length).toBeGreaterThan(1);
+    expect(intentTotal).toBeLessThan(100_000);
+    expect(shards.length).toBeGreaterThanOrEqual(1);
+    expect(shards.length).toBeLessThan(15);
+    expect(listSitemapShards().length).toBeLessThan(30);
   });
 });
 

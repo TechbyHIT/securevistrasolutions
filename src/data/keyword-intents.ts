@@ -14,6 +14,10 @@ export type KeywordIntent = {
   tags?: string[];
 };
 
+import {
+  SITEMAP_INTENT_TAGS,
+  SITEMAP_MAX_INTENTS_PER_SERVICE,
+} from "@/config/sitemap-indexing";
 import { KEYWORD_INTENTS_DATA } from "./keyword-intents-data";
 
 export const KEYWORD_INTENTS = KEYWORD_INTENTS_DATA as KeywordIntent[];
@@ -103,31 +107,37 @@ export function countKeywordIntents(): number {
   return KEYWORD_INTENTS.length;
 }
 
-/** Subset used in sitemaps — commercial / pricing / install / safety intent (not long-tail "general" only). */
-const HIGH_INTENT_SITEMAP_TAGS = new Set([
-  "pricing",
-  "installation",
-  "safety",
-  "buy",
-  "near-me",
-  "provider",
-  "application",
-  "material",
-  "design",
-  "balcony",
-  "window",
-  "apartment",
-  "commercial",
-  "location",
-]);
-
+/** Broader commercial pool (not capped) — used for linking samples / legacy checks. */
 export function getHighIntentKeywordIntents(): KeywordIntent[] {
   return KEYWORD_INTENTS.filter((intent) => {
     const tags = intent.tags ?? [];
-    return tags.some((tag) => HIGH_INTENT_SITEMAP_TAGS.has(tag));
+    return tags.some((tag) => SITEMAP_INTENT_TAGS.has(tag));
   });
 }
 
+/**
+ * Capped commercial intents for sitemaps + indexability.
+ * Keeps area×intent under Google-friendly volume (~areas × intentsPerService).
+ */
+export function getSitemapKeywordIntents(): KeywordIntent[] {
+  const byService = new Map<string, KeywordIntent[]>();
+
+  for (const intent of getHighIntentKeywordIntents()) {
+    const list = byService.get(intent.serviceSlug) ?? [];
+    list.push(intent);
+    byService.set(intent.serviceSlug, list);
+  }
+
+  const selected: KeywordIntent[] = [];
+  for (const list of byService.values()) {
+    list.sort((a, b) => a.slug.localeCompare(b.slug));
+    selected.push(...list.slice(0, SITEMAP_MAX_INTENTS_PER_SERVICE));
+  }
+
+  selected.sort((a, b) => a.slug.localeCompare(b.slug));
+  return selected;
+}
+
 export function countHighIntentKeywordIntents(): number {
-  return getHighIntentKeywordIntents().length;
+  return getSitemapKeywordIntents().length;
 }
