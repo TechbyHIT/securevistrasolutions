@@ -25,6 +25,12 @@ npm run build
 echo "==> Syncing static + public into standalone"
 node -e "import('./scripts/lib/sync-standalone-assets.mjs').then(m => m.syncStandaloneAssets())"
 
+if [ ! -f "$ROOT/.next/standalone/server.js" ]; then
+  echo "ERROR: .next/standalone/server.js missing after sync. Aborting."
+  find "$ROOT/.next" -name 'server.js' 2>/dev/null | head -20 || true
+  exit 1
+fi
+
 echo "==> Starting / reloading PM2 on PORT=${PORT}"
 export PORT HOSTNAME="${HOSTNAME:-0.0.0.0}"
 if pm2 describe "$APP_NAME" >/dev/null 2>&1; then

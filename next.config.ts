@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: "standalone",
+  // Parent /var/www/package-lock.json otherwise steals the workspace root and
+  // nests standalone as .next/standalone/var/www/securevista/server.js
+  outputFileTracingRoot: path.join(__dirname),
   compress: true,
   experimental: {
     optimizePackageImports: ["clsx", "tailwind-merge", "zod"],
