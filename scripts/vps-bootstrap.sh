@@ -9,7 +9,7 @@ set -euo pipefail
 DOMAIN="${DOMAIN:-securevistasolutions.in}"
 APP_DIR="${APP_DIR:-/var/www/securevista}"
 REPO="${REPO:-https://github.com/TechbyHIT/securevistrasolutions.git}"
-PORT="${PORT:-3005}"
+PORT="${PORT:-3003}"
 APP_NAME="${APP_NAME:-securevista}"
 
 echo "==> [1/8] System packages"

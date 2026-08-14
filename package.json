@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:3005": "next dev -p 3005 --turbopack",
+    "dev:3003": "next dev -p 3003 --turbopack",
     "dev:3007": "next dev -p 3007 --turbopack",
     "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\"",
     "build": "next build",

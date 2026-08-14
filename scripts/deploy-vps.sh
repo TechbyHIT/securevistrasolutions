@@ -6,7 +6,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-PORT="${PORT:-3005}"
+PORT="${PORT:-3003}"
 APP_NAME="${APP_NAME:-securevista}"
 
 echo "==> Pulling latest"

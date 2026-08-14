@@ -14,7 +14,7 @@ module.exports = {
       time: true,
       env: {
         NODE_ENV: "production",
-        PORT: "3005",
+        PORT: "3003",
         HOSTNAME: "0.0.0.0",
         NEXT_PUBLIC_SITE_URL: "https://securevistasolutions.in",
         NEXT_PUBLIC_BUSINESS_NAME: "Secure Vista Solutions",

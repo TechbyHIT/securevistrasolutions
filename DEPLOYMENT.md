@@ -3,7 +3,7 @@
 Production stack for **Secure Vista Solutions**:
 
 - Domain: `https://securevistasolutions.in`
-- App port: **3005** (behind Nginx)
+- App port: **3003** (behind Nginx)
 - Process manager: **PM2**
 - Next.js `output: "standalone"` (no Docker)
 
@@ -22,7 +22,7 @@ git clone https://github.com/TechbyHIT/securevistrasolutions.git /tmp/securevist
 bash /tmp/securevista-setup/scripts/vps-bootstrap.sh
 ```
 
-This installs Node 20, PM2, Nginx, UFW, clones to `/var/www/securevista`, builds standalone, starts PM2 on **port 3005**, configures Nginx for `securevistasolutions.in`, and attempts Let's Encrypt SSL.
+This installs Node 20, PM2, Nginx, UFW, clones to `/var/www/securevista`, builds standalone, starts PM2 on **port 3003**, configures Nginx for `securevistasolutions.in`, and attempts Let's Encrypt SSL.
 
 **Before SSL works:** point DNS A records for `@` and `www` to the VPS IP.
 
@@ -62,7 +62,7 @@ ADMIN_USERNAME=admin
 ADMIN_PASSWORD=use-a-strong-password
 ADMIN_SESSION_SECRET=long-random-string
 REVALIDATE_SECRET=long-random-string
-PORT=3005
+PORT=3003
 ```
 
 ### 3) Build + PM2
@@ -70,7 +70,7 @@ PORT=3005
 ```bash
 chmod +x scripts/deploy-vps.sh scripts/vps-bootstrap.sh
 bash scripts/deploy-vps.sh
-curl -I http://127.0.0.1:3005
+curl -I http://127.0.0.1:3003
 ```
 
 ### 4) Nginx + SSL
@@ -103,4 +103,4 @@ pm2 restart securevista
 - No database — TypeScript data modules only.
 - Quote form sends to **WhatsApp**.
 - Raw `/images/` source is not in Git; production uses `public/images/`.
-- Local Windows: `npm run build && set PORT=3005&& npm run start`
+- Local Windows: `npm run build && set PORT=3003&& npm run start`
