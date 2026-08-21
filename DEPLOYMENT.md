@@ -11,6 +11,25 @@ Repo: https://github.com/TechbyHIT/securevistrasolutions.git
 
 ---
 
+## Sitemaps (build-time, Deva pattern)
+
+Build writes static files (not Next `app/sitemap.ts`):
+
+- `public/sitemap.xml` — index
+- `public/sitemaps/sitemap-N.xml` — shards (max 40k URLs each)
+
+```bash
+npm run catalog:build   # verify static TS catalog
+npm run sitemap:build   # write public/sitemap*.xml
+npm run build           # catalog → sitemap → next build
+```
+
+Low-RAM VPS: `SITEMAP_PHASE=1 bash scripts/deploy-vps.sh` (hubs + menu services only).
+
+After deploy, resubmit only `https://securevistasolutions.in/sitemap.xml` in GSC.
+
+---
+
 ## Full one-command setup (recommended)
 
 On a fresh Ubuntu/Debian VPS (with sudo):

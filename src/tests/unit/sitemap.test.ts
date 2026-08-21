@@ -1,83 +1,82 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, beforeEach } from "vitest";
 import {
-  countSitemapEntries,
-  getSitemapEntries,
-  getSitemapGroups,
-  getSitemapShardEntries,
-  listSitemapShards,
-  buildSitemapIndexXml,
-} from "@/lib/sitemap/get-sitemap-entries";
-import { countProgrammaticIndexablePages } from "@/lib/publishing/enumerate-programmatic-pages";
-import { resolveInvisibleGrillsInstallationCombo } from "@/lib/publishing/page-factory";
-import { isPageIndexable } from "@/lib/seo/is-page-indexable";
-import { SEO_CONFIG } from "@/config/seo";
+  getAllSitemapEntries,
+  resetSitemapEntryCache,
+  shardSitemapEntries,
+  renderUrlsetXml,
+  renderSitemapIndexXml,
+  SITEMAP_SHARD_SIZE,
+} from "@/lib/sitemap-urls";
+import { SITE_CONFIG } from "@/config/site";
 
-describe("sitemap indexability", () => {
-  it("includes high-intent programmatic URL groups only", () => {
-    const groups = getSitemapGroups();
-    expect(groups).toContain("service-area-intent");
-    expect(groups).toContain("invisible-grills-installation");
-    expect(groups).toContain("service-in-city");
-    expect(groups).not.toContain("service-area");
-    expect(groups).not.toContain("areas");
+describe("build-time sitemap (Deva pattern)", () => {
+  beforeEach(() => {
+    resetSitemapEntryCache();
   });
 
-  it("enumerates high-intent intent URLs and installation localities", () => {
-    const programmatic = countProgrammaticIndexablePages();
-    expect(programmatic.invisibleGrillsInstallation).toBeGreaterThanOrEqual(352);
+  it("returns deduped absolute https entries with lastmod", () => {
+    const entries = getAllSitemapEntries();
+    expect(entries.length).toBeGreaterThan(50);
 
-    const installCount = countSitemapEntries("invisible-grills-installation");
-    expect(installCount).toBeGreaterThanOrEqual(352);
+    const urls = entries.map((e) => e.url);
+    expect(new Set(urls).size).toBe(urls.length);
 
-    const intentTotal = countSitemapEntries("service-area-intent");
-    expect(intentTotal).toBeGreaterThan(1000);
-    expect(intentTotal).toBeLessThan(programmatic.serviceAreaIntents * 2);
+    for (const entry of entries.slice(0, 100)) {
+      expect(entry.url.startsWith("https://")).toBe(true);
+      expect(entry.url.startsWith(SITE_CONFIG.url)).toBe(true);
+      expect(entry.lastModified).toBeInstanceOf(Date);
+      expect(entry.changeFrequency).toBeTruthy();
+      expect(entry.priority).toBeGreaterThan(0);
+    }
   });
 
-  it("builds a sharded sitemap index covering every group", () => {
-    const shards = listSitemapShards();
-    expect(shards.length).toBeGreaterThan(5);
-    expect(shards.every((s) => s.loc.includes("/sitemaps/") && s.loc.endsWith(".xml"))).toBe(
-      true,
-    );
-
-    const indexXml = buildSitemapIndexXml();
-    expect(indexXml).toContain("<sitemapindex");
-    expect(indexXml).toContain("/sitemaps/service-area-intent/");
-    expect(indexXml).toContain("/sitemaps/invisible-grills-installation/");
+  it("includes core hubs and excludes thank-you", () => {
+    const urls = getAllSitemapEntries().map((e) => e.url);
+    expect(urls.some((u) => u === `${SITE_CONFIG.url}/` || u === `${SITE_CONFIG.url}`)).toBe(true);
+    expect(urls.some((u) => u.includes("/services/"))).toBe(true);
+    expect(urls.some((u) => u.includes("/locations/hyderabad"))).toBe(true);
+    expect(urls.some((u) => u.includes("/thank-you"))).toBe(false);
+    expect(urls.some((u) => u.includes("/admin"))).toBe(false);
   });
 
-  it("returns shard urlsets with absolute urls", () => {
-    const { entries } = getSitemapShardEntries("invisible-grills-installation", 1);
-    expect(entries.length).toBeGreaterThan(0);
-    expect(entries[0]?.url).toMatch(/^https?:\/\//);
-    expect(entries.some((e) => e.url.includes("invisible-grills-installation-in-"))).toBe(true);
+  it("includes service-in-city and capped area service pages at default phase", () => {
+    const urls = getAllSitemapEntries().map((e) => e.url);
+    expect(urls.some((u) => u.includes("invisible-grills-in-hyderabad"))).toBe(true);
+    expect(urls.some((u) => u.includes("invisible-grills-installation-in-"))).toBe(true);
+    expect(urls.some((u) => /\/hyderabad\/[^/]+\/invisible-grills\//.test(u))).toBe(true);
   });
 
-  it("marks locality installation pages as indexable", () => {
-    const page = resolveInvisibleGrillsInstallationCombo("gachibowli");
-    expect(page).toBeTruthy();
-    expect(
-      isPageIndexable({
-        ...page!,
-        minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page!.pageType] ?? 700,
-      }),
-    ).toBe(true);
+  it("does not include intent keyword × area explosion paths", () => {
+    const urls = getAllSitemapEntries().map((e) => e.url);
+    // Intent URLs look like /hyderabad/{area}/{service}/{intent}/
+    const intentLike = urls.filter((u) => {
+      const path = u.replace(SITE_CONFIG.url, "");
+      const parts = path.split("/").filter(Boolean);
+      return parts.length >= 4 && parts[0] === "hyderabad";
+    });
+    expect(intentLike.length).toBe(0);
   });
 
-  it("includes materialized home and service-in-city urls", () => {
-    const { entries } = getSitemapEntries({ group: "service-in-city", limit: 50 });
-    expect(entries.some((e) => e.url.includes("invisible-grills-in-hyderabad"))).toBe(true);
-  });
-
-  it("keeps intent sitemap volume Google-crawlable", () => {
-    const intentTotal = countSitemapEntries("service-area-intent");
-    const shards = listSitemapShards().filter((s) => s.group === "service-area-intent");
-    expect(intentTotal).toBeGreaterThan(1000);
-    expect(intentTotal).toBeLessThan(100_000);
+  it("shards under Google's 50k limit", () => {
+    const entries = getAllSitemapEntries();
+    const shards = shardSitemapEntries(entries);
     expect(shards.length).toBeGreaterThanOrEqual(1);
-    expect(shards.length).toBeLessThan(15);
-    expect(listSitemapShards().length).toBeLessThan(30);
+    for (const shard of shards) {
+      expect(shard.length).toBeLessThanOrEqual(SITEMAP_SHARD_SIZE);
+    }
+  });
+
+  it("renders valid urlset and index XML", () => {
+    const entries = getAllSitemapEntries().slice(0, 5);
+    const xml = renderUrlsetXml(entries);
+    expect(xml).toContain("<urlset");
+    expect(xml).toContain("<loc>");
+    expect(xml).toContain("<lastmod>");
+    expect(xml).toContain("<changefreq>");
+    expect(xml).toContain("<priority>");
+
+    const index = renderSitemapIndexXml([`${SITE_CONFIG.url}/sitemaps/sitemap-1.xml`]);
+    expect(index).toContain("<sitemapindex");
+    expect(index).toContain("/sitemaps/sitemap-1.xml");
   });
 });
-

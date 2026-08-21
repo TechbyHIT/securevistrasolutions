@@ -51,3 +51,7 @@ next-env.d.ts
 
 # generated page registry cache
 /data/generated/
+
+# Generated sitemap shards (index at public/sitemap.xml rebuilt on deploy)
+/public/sitemaps/
+/public/sitemap.xml

@@ -19,7 +19,8 @@ if ! npm ci; then
   npm install
 fi
 
-echo "==> Building (standalone)"
+echo "==> Building (catalog → sitemap → next standalone)"
+# Low-RAM emergency: SITEMAP_PHASE=1 bash scripts/deploy-vps.sh
 npm run build
 
 echo "==> Syncing static + public into standalone"
