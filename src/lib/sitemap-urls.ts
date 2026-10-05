@@ -54,6 +54,8 @@ function changeFrequencyFor(kind: SeoPageMatrixEntry["kind"]): SitemapEntry["cha
     case "location":
     case "service-in-city":
     case "installation-locality":
+    case "area":
+    case "service-area":
       return "weekly";
     default:
       return "monthly";
@@ -61,9 +63,17 @@ function changeFrequencyFor(kind: SeoPageMatrixEntry["kind"]): SitemapEntry["cha
 }
 
 function includeInPhase(entry: SeoPageMatrixEntry): boolean {
-  if (SITEMAP_PHASE >= 2) return true;
-  // Phase 1 emergency: drop locality installation pages to shrink sitemap
-  return entry.kind !== "installation-locality";
+  if (SITEMAP_PHASE >= 4) return true;
+  if (SITEMAP_PHASE >= 2) {
+    // Phase 2–3: hubs + installation + areas (service×area from phase 4)
+    return entry.kind !== "service-area";
+  }
+  // Phase 1 emergency: hubs only
+  return (
+    entry.kind !== "installation-locality" &&
+    entry.kind !== "area" &&
+    entry.kind !== "service-area"
+  );
 }
 
 /**

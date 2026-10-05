@@ -62,7 +62,8 @@ const samplePaths = [
   "/invisible-grills-installation-in-tolichowki/", // likely ISR
   "/solutions/child-balcony-safety/",
   "/property-types/apartments/invisible-grills/",
-  "/locations/hyderabad/gachibowli/", // intentional noindex
+  "/locations/hyderabad/gachibowli/", // area hub — now indexable
+  "/hyderabad/gachibowli/invisible-grills/", // service×area — now indexable
   "/thank-you/",
   "/privacy-policy/",
   "/this-page-should-404-xyz/",
@@ -179,7 +180,7 @@ const report = {
   sampleRows: rows,
   notes: [
     "generateStaticParams only controls build-time pre-render — never indexability.",
-    "Area hubs, service×area, and intent URLs are intentional noindex thin surfaces.",
+    "Area hubs and service×area pages are index,follow and included in the sitemap.",
     "Intent URLs (~74k) stay ISR-reachable but noindex until explicitly promoted into the matrix + sitemap.",
   ],
 };

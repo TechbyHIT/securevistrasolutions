@@ -9,10 +9,7 @@ import {
   isSitemapProgrammaticGroup,
   SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS,
 } from "@/config/sitemap-indexing";
-import {
-  SEO_INTENTIONAL_NOINDEX_PATHS,
-  SEO_THIN_NOINDEX_PAGE_TYPES,
-} from "@/lib/seo/seo-page-matrix";
+import { SEO_INTENTIONAL_NOINDEX_PATHS } from "@/lib/seo/seo-page-matrix";
 import type { PageRecord } from "@/types/page";
 
 /**
@@ -28,28 +25,31 @@ export function isSeoIndexablePage(page: PageRecord): boolean {
     return false;
   }
 
-  if (SEO_THIN_NOINDEX_PAGE_TYPES.has(page.pageType)) {
+  if (page.publicationStatus !== "published" || page.allowIndexing === false) {
     return false;
   }
 
   const group = page.sitemapGroup ?? "core";
 
-  if (SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS.has(group)) {
-    return false;
-  }
-
-  if (page.pageType === "service-area" || page.pageType === "area") {
-    return false;
-  }
-
-  // Intent URLs stay reachable via ISR but are intentionally noindex at this scale
-  // (~74k combinations). Re-enable only when also added to the authoritative sitemap.
+  // Intent URLs stay noindex at ~74k scale until explicitly promoted into the matrix.
   if (page.pageType === "service-area-intent" || group === "service-area-intent") {
     return false;
   }
 
+  if (SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS.has(group)) {
+    return false;
+  }
+
+  // Area hubs + service×area are approved indexable SEO pages (ISR + sitemap).
+  if (page.pageType === "area" || page.pageType === "service-area") {
+    return true;
+  }
+
+  if (group === "areas" || group === "service-area") {
+    return true;
+  }
+
   if (isSitemapProgrammaticGroup(group)) {
-    // invisible-grills-installation is the only programmatic group that indexes
     return group === "invisible-grills-installation";
   }
 

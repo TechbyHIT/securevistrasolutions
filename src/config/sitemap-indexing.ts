@@ -1,10 +1,11 @@
 /** Which sitemap shards are emitted and eligible for Google indexing. */
 export const SITEMAP_PROGRAMMATIC_GROUPS = [
   "invisible-grills-installation",
-  "service-area-intent",
+  "areas",
+  "service-area",
 ] as const;
 
-/** Materialized page groups included in sitemaps (excludes bulk area hubs). */
+/** Materialized page groups included in sitemaps. */
 export const SITEMAP_MATERIALIZED_GROUPS = new Set([
   "core",
   "services",
@@ -14,22 +15,18 @@ export const SITEMAP_MATERIALIZED_GROUPS = new Set([
   "blog",
   "solutions",
   "property-types",
+  "areas",
+  "service-area",
 ]);
 
 /**
  * Programmatic groups excluded from sitemaps (still reachable via ISR, noindex).
- * These are intentional thin surfaces — not "skipped valid SEO pages".
+ * Intent URLs remain excluded at current scale (~74k).
  */
-export const SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS = new Set([
-  "service-area",
-  "area",
-  "service-area-intent",
-]);
+export const SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS = new Set(["service-area-intent"]);
 
 /**
- * Commercial tags only for sitemap intent URLs.
- * Broader tags (safety/material/design/application) explode to millions of URLs
- * and cause Google Search Console "Couldn't fetch" on the shard index.
+ * Commercial tags only for sitemap intent URLs (when re-enabled).
  */
 export const SITEMAP_INTENT_TAGS = new Set([
   "pricing",

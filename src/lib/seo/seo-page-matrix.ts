@@ -26,6 +26,8 @@ export type SeoPageKind =
   | "location"
   | "service-in-city"
   | "installation-locality"
+  | "area"
+  | "service-area"
   | "solution"
   | "property-type"
   | "guide"
@@ -73,14 +75,10 @@ export const SEO_INTENTIONAL_NOINDEX_PATHS = new Set([
 ]);
 
 /**
- * Thin programmatic surfaces — HTTP 200 for UX/internal links, but NOT indexable.
- * These are NOT "skipped valid SEO pages"; they are intentional noindex.
+ * Only deep intent URLs stay noindex by default (~74k combinations).
+ * Area hubs and service×area pages are approved indexable SEO pages.
  */
-export const SEO_THIN_NOINDEX_PAGE_TYPES = new Set([
-  "area",
-  "service-area",
-  "service-area-intent",
-]);
+export const SEO_THIN_NOINDEX_PAGE_TYPES = new Set(["service-area-intent"]);
 
 let cachedMatrix: SeoPageMatrixEntry[] | null = null;
 
@@ -154,10 +152,31 @@ export function getSeoPageMatrix(forceRefresh = false): SeoPageMatrixEntry[] {
     const areas = getServedAreas(location.id);
     for (const area of areas) {
       add({
+        path: `/locations/${location.slug}/${area.slug}/`,
+        kind: "area",
+        priority: 0.65,
+        preRender: false,
+        locationSlug: location.slug,
+        areaSlug: area.slug,
+      });
+
+      for (const service of services) {
+        add({
+          path: `/${location.slug}/${area.slug}/${service.slug}/`,
+          kind: "service-area",
+          priority: 0.6,
+          preRender: false,
+          serviceSlug: service.slug,
+          locationSlug: location.slug,
+          areaSlug: area.slug,
+        });
+      }
+
+      add({
         path: buildInvisibleGrillsInstallationPath(area.slug),
         kind: "installation-locality",
         priority: 0.7,
-        preRender: false, // priority-seo-pages marks a subset true at build time
+        preRender: false,
         serviceSlug: "invisible-grills",
         locationSlug: location.slug,
         areaSlug: area.slug,
