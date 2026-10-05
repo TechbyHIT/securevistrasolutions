@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: "standalone",
+  // Must match SITE_CONFIG.trailingSlash + sitemap/canonical URLs.
+  // Without this, Next 308s /path/ → /path and crawlers skip pages.
+  trailingSlash: true,
   // Parent /var/www/package-lock.json otherwise steals the workspace root and
   // nests standalone as .next/standalone/var/www/securevista/server.js
   outputFileTracingRoot: path.join(__dirname),
@@ -83,8 +86,89 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/hyderabad/:service",
-        destination: "/:service-in-hyderabad",
+        source: "/home/",
+        destination: "/",
+        permanent: true,
+      },
+      // Only real service slugs — never catch locality names like /hyderabad/gachibowli/
+      {
+        source: "/hyderabad/invisible-grills",
+        destination: "/invisible-grills-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/invisible-grills/",
+        destination: "/invisible-grills-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/balcony-safety-nets",
+        destination: "/balcony-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/balcony-safety-nets/",
+        destination: "/balcony-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/children-safety-nets",
+        destination: "/children-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/children-safety-nets/",
+        destination: "/children-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/pet-safety-nets",
+        destination: "/pet-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/pet-safety-nets/",
+        destination: "/pet-safety-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/mosquito-nets",
+        destination: "/mosquito-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/mosquito-nets/",
+        destination: "/mosquito-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/bird-spikes",
+        destination: "/bird-spikes-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/bird-spikes/",
+        destination: "/bird-spikes-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/cloth-hangers",
+        destination: "/cloth-hangers-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/cloth-hangers/",
+        destination: "/cloth-hangers-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/cricket-nets",
+        destination: "/cricket-nets-in-hyderabad/",
+        permanent: true,
+      },
+      {
+        source: "/hyderabad/cricket-nets/",
+        destination: "/cricket-nets-in-hyderabad/",
         permanent: true,
       },
     ];
