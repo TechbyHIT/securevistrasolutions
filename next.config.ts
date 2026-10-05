@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["clsx", "tailwind-merge", "zod"],
   },
   images: {
+    // trailingSlash:true 308s /_next/image → /_next/image/ and the optimizer returns 400.
+    // Serve static files from public/ directly (synced into standalone on deploy).
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     deviceSizes: [320, 360, 375, 390, 412, 640, 768, 1024, 1280, 1440],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

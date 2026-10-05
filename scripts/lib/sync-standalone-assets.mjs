@@ -71,5 +71,13 @@ export function syncStandaloneAssets(root = process.cwd()) {
     cpSync(publicSrc, publicDest, { recursive: true });
   }
 
+  const logo = join(publicDest, "images", "logo.webp");
+  if (!existsSync(logo)) {
+    throw new Error(
+      `Missing ${logo} after sync — public/images was not copied into standalone.`,
+    );
+  }
+
   console.log("Standalone server:", serverJs);
+  console.log("Public assets synced:", publicDest);
 }
