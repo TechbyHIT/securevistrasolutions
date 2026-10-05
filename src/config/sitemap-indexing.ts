@@ -9,6 +9,7 @@ export const SITEMAP_MATERIALIZED_GROUPS = new Set([
   "core",
   "services",
   "service-in-city",
+  "locations",
   "guides",
   "blog",
 ]);

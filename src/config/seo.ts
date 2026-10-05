@@ -8,7 +8,7 @@ export const SEO_CONFIG = {
     location: 20000,
     area: 20000,
     "service-in-city": 20000,
-    "invisible-grills-installation-in-locality": 20000,
+    "invisible-grills-installation-in-locality": 900,
     "service-location": 20000,
     "service-area": 20000,
     "service-area-intent": 20000,

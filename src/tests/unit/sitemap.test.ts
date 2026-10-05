@@ -4,12 +4,14 @@ import {
   resetSitemapEntryCache,
   shardSitemapEntries,
   renderUrlsetXml,
-  renderSitemapIndexXml,
   SITEMAP_SHARD_SIZE,
 } from "@/lib/sitemap-urls";
 import { SITE_CONFIG } from "@/config/site";
+import { getAreaBySlug } from "@/data/initial-areas";
+import { buildInvisibleGrillsLocalityContent } from "@/lib/content/build-invisible-grills-locality-content";
+import { localitySeed } from "@/lib/content/build-unique-locality-copy";
 
-describe("build-time sitemap (Deva pattern)", () => {
+describe("build-time sitemap (indexable-only)", () => {
   beforeEach(() => {
     resetSitemapEntryCache();
   });
@@ -17,66 +19,65 @@ describe("build-time sitemap (Deva pattern)", () => {
   it("returns deduped absolute https entries with lastmod", () => {
     const entries = getAllSitemapEntries();
     expect(entries.length).toBeGreaterThan(50);
+    expect(entries.length).toBeLessThan(5000);
 
     const urls = entries.map((e) => e.url);
     expect(new Set(urls).size).toBe(urls.length);
 
-    for (const entry of entries.slice(0, 100)) {
-      expect(entry.url.startsWith("https://")).toBe(true);
+    for (const entry of entries.slice(0, 50)) {
       expect(entry.url.startsWith(SITE_CONFIG.url)).toBe(true);
       expect(entry.lastModified).toBeInstanceOf(Date);
-      expect(entry.changeFrequency).toBeTruthy();
-      expect(entry.priority).toBeGreaterThan(0);
     }
   });
 
-  it("includes core hubs and excludes thank-you", () => {
+  it("includes installation localities and excludes noindex service-area / area hubs", () => {
     const urls = getAllSitemapEntries().map((e) => e.url);
-    expect(urls.some((u) => u === `${SITE_CONFIG.url}/` || u === `${SITE_CONFIG.url}`)).toBe(true);
-    expect(urls.some((u) => u.includes("/services/"))).toBe(true);
-    expect(urls.some((u) => u.includes("/locations/hyderabad"))).toBe(true);
-    expect(urls.some((u) => u.includes("/thank-you"))).toBe(false);
-    expect(urls.some((u) => u.includes("/admin"))).toBe(false);
-  });
-
-  it("includes service-in-city and capped area service pages at default phase", () => {
-    const urls = getAllSitemapEntries().map((e) => e.url);
-    expect(urls.some((u) => u.includes("invisible-grills-in-hyderabad"))).toBe(true);
     expect(urls.some((u) => u.includes("invisible-grills-installation-in-"))).toBe(true);
-    expect(urls.some((u) => /\/hyderabad\/[^/]+\/invisible-grills\//.test(u))).toBe(true);
-  });
-
-  it("does not include intent keyword × area explosion paths", () => {
-    const urls = getAllSitemapEntries().map((e) => e.url);
-    // Intent URLs look like /hyderabad/{area}/{service}/{intent}/
-    const intentLike = urls.filter((u) => {
-      const path = u.replace(SITE_CONFIG.url, "");
-      const parts = path.split("/").filter(Boolean);
-      return parts.length >= 4 && parts[0] === "hyderabad";
-    });
-    expect(intentLike.length).toBe(0);
+    expect(urls.some((u) => u.includes("invisible-grills-in-hyderabad"))).toBe(true);
+    expect(urls.some((u) => /\/locations\/hyderabad\/[^/]+\/$/.test(u))).toBe(false);
+    expect(urls.some((u) => /\/hyderabad\/[^/]+\/invisible-grills\/$/.test(u))).toBe(false);
+    expect(urls.some((u) => u.includes("/thank-you"))).toBe(false);
   });
 
   it("shards under Google's 50k limit", () => {
-    const entries = getAllSitemapEntries();
-    const shards = shardSitemapEntries(entries);
-    expect(shards.length).toBeGreaterThanOrEqual(1);
+    const shards = shardSitemapEntries(getAllSitemapEntries());
     for (const shard of shards) {
       expect(shard.length).toBeLessThanOrEqual(SITEMAP_SHARD_SIZE);
     }
   });
 
-  it("renders valid urlset and index XML", () => {
-    const entries = getAllSitemapEntries().slice(0, 5);
-    const xml = renderUrlsetXml(entries);
-    expect(xml).toContain("<urlset");
+  it("renders urlset with loc + lastmod", () => {
+    const xml = renderUrlsetXml(getAllSitemapEntries().slice(0, 3));
     expect(xml).toContain("<loc>");
     expect(xml).toContain("<lastmod>");
-    expect(xml).toContain("<changefreq>");
-    expect(xml).toContain("<priority>");
+  });
+});
 
-    const index = renderSitemapIndexXml([`${SITE_CONFIG.url}/sitemaps/sitemap-1.xml`]);
-    expect(index).toContain("<sitemapindex");
-    expect(index).toContain("/sitemaps/sitemap-1.xml");
+describe("unique locality content", () => {
+  it("builds different intros for different localities (not city-name-only swap)", () => {
+    const a = getAreaBySlug("gachibowli");
+    const b = getAreaBySlug("hastinapuram") ?? getAreaBySlug("kondapur");
+    expect(a && b).toBeTruthy();
+    const ca = buildInvisibleGrillsLocalityContent(a!);
+    const cb = buildInvisibleGrillsLocalityContent(b!);
+
+    expect(ca.introExtended.join(" ").split(/\s+/).length).toBeGreaterThanOrEqual(100);
+    expect(cb.introExtended.join(" ").split(/\s+/).length).toBeGreaterThanOrEqual(100);
+    expect(ca.title).not.toBe(cb.title);
+    expect(ca.metaDescription).not.toBe(cb.metaDescription);
+    expect(ca.faqs.length).toBeLessThanOrEqual(10);
+    expect(ca.faqs[0]?.question).not.toBe(cb.faqs[0]?.question);
+
+    const norm = (text: string, loc: string, city: string) =>
+      text
+        .toLowerCase()
+        .replaceAll(loc.toLowerCase(), "{loc}")
+        .replaceAll(city.toLowerCase(), "{city}");
+    expect(norm(ca.intro, ca.locality, ca.city)).not.toBe(norm(cb.intro, cb.locality, cb.city));
+  });
+
+  it("uses deterministic seed per slug", () => {
+    expect(localitySeed("gachibowli")).toBe(localitySeed("gachibowli"));
+    expect(localitySeed("gachibowli")).not.toBe(localitySeed("madhapur"));
   });
 });

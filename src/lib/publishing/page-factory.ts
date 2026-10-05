@@ -392,7 +392,7 @@ export function createInvisibleGrillsInstallationPageRecord(
     crawlPriority: "high",
     sitemapGroup: "invisible-grills-installation",
     openGraphImage: getServiceImages(service.slug).heroImage,
-    contentWordCount: Math.max(content.wordCountEstimate, 20000),
+    contentWordCount: Math.max(content.wordCountEstimate, 900),
   });
 }
 

@@ -10,7 +10,15 @@ import {
 } from "@/data/keyword-intents";
 import { buildInvisibleGrillsInstallationPath } from "@/lib/utils/installation-in-locality-slug";
 import { buildServiceInCityPath } from "@/lib/utils/service-in-city-slug";
-import { buildUltraLongformSeo } from "@/lib/content/build-ultra-longform-seo";
+import {
+  buildLocalityMeta,
+  buildUniqueLocalityFaqs,
+  buildUniqueLocalityIntro,
+  buildUniqueLocalSection,
+  classifyPropertyMix,
+  localitySeed,
+  shuffleBySeed,
+} from "@/lib/content/build-unique-locality-copy";
 import type { Area } from "@/types/location";
 import type { ContentBlock, FaqItem } from "@/types/content";
 
@@ -235,11 +243,6 @@ function buildServiceLinks(area: Area, city: string, citySlug: string): SeoLink[
       href: buildServiceInCityPath(related.slug, citySlug),
       group: "related-service",
     });
-    links.push({
-      label: `${related.name} in ${area.name}`,
-      href: `/${citySlug}/${area.slug}/${related.slug}/`,
-      group: "related-service-area",
-    });
   }
 
   return links;
@@ -303,60 +306,85 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
   const company = BUSINESS_CONFIG.name;
   const nearbyAreas = getNearbyAreasForLocality(area, 12);
   const moreAreas = getNearbyAreasForLocality(area, 48).slice(12);
+  const nearbyNames = nearbyAreas.map((a) => a.name);
+  const seed = localitySeed(area.slug);
+  const mix = classifyPropertyMix(area);
 
-  const title = `Invisible Grills Installation in ${locality} | Balcony & Window Safety | ${company}`;
-  const metaDescription = `Looking for invisible grills installation in ${locality}? ${company} provides premium SS316 invisible grills for balconies, windows, apartments, villas, and commercial buildings in ${locality}, ${city}. Free site visit and quotation.`;
-  const h1 = `Invisible Grills Installation in ${locality}`;
+  const meta = buildLocalityMeta({ locality, city, company, area });
+  const uniqueIntro = buildUniqueLocalityIntro({
+    company,
+    locality,
+    city,
+    area,
+    nearbyNames,
+  });
+  const uniqueLocal = buildUniqueLocalSection({
+    locality,
+    city,
+    area,
+    nearbyNames,
+  });
 
-  const intro = `${company} is a trusted provider of invisible grill installation in ${locality}. We supply high-quality stainless steel cable invisible grills that enhance safety without blocking your view. Our experienced team serves apartments, villas, independent houses, and commercial buildings across ${locality} with professional installation and reliable after-sales support.`;
+  const title = meta.title;
+  const metaDescription = meta.metaDescription;
+  const h1 = meta.h1;
+  const intro = uniqueIntro.intro;
+  const introExtended = uniqueIntro.paragraphs;
+  const whyLocality = uniqueLocal.lead;
+  const whyLocalityExtended = uniqueLocal.paragraphs;
 
-  const introExtended = [
-    intro,
-    `Homeowners in ${locality} often search for balcony invisible grills, window invisible grills and child-safe railing protection after comparing conventional iron grills. Stainless cable systems keep natural light and ventilation while reducing fall risk for children and pets.`,
-    area.introduction,
-    area.localDescription,
-    `${company} starts every ${locality} project with a free site visit. We measure openings, check railing posts and slab edges, recommend SS316 or SS304 cable grades, and share a written quotation before installation is scheduled.`,
-    `Whether you need a single balcony package or multi-opening coverage for a villa or high-rise flat in ${locality}, our installers coordinate with society access timings and leave a neat finish ready for everyday use.`,
-  ];
+  const pricingNotes = shuffleBySeed(
+    [
+      `Invisible grill pricing in ${locality} depends on measured openings, floor access, cable grade and child/pet spacing — confirmed after a free site visit.`,
+      `Ask for a written quotation for ${locality} that lists SS304/SS316 grade, quantity and warranty rather than a phone-only rate.`,
+      mix.hasApartments
+        ? `Apartment jobs in ${locality} may need society entry timing; that labour window is reflected in the final quote when applicable.`
+        : `Villa or independent-home openings in ${locality} are priced per opening once spans and fixing points are measured.`,
+      `Compare ${locality} installers on measurement process and cable quality, not headline cost alone.`,
+    ],
+    seed,
+  );
 
-  const whyLocality = `Many residential apartments and villas in ${locality} require modern balcony safety solutions without affecting ventilation or aesthetics. Our invisible grills provide maximum safety while maintaining an open and elegant appearance.`;
+  const materialsNotes = shuffleBySeed(
+    [
+      `For exposed ${locality} balconies, ${company} often recommends SS316 stainless cables for corrosion resistance in ${city} weather.`,
+      `SS304 remains suitable for sheltered openings in ${locality}; we explain the trade-off during inspection.`,
+      `Cable spacing for ${mix.primaryLabel} in ${locality} is planned around who uses the space — toddlers, pets or view-first households.`,
+      `Hardware and end fittings are matched to railing colour and surface type found on the ${locality} property.`,
+    ],
+    seed + 3,
+  );
 
-  const whyLocalityExtended = [
-    whyLocality,
-    `${locality} housing mixes high-rise towers, gated communities and independent homes. Open railing gaps, deep balconies and west-facing windows create different fixing needs — which is why phone-only quotes are rarely accurate.`,
-    `Families moving into ${locality} apartments frequently book invisible grills during handover or soon after possession. Early installation is simpler before furniture and AC outdoor units complicate access.`,
-    `Local weather in ${city} includes hot summers and monsoon humidity. SS316 stainless cables and corrosion-resistant hardware are preferred for long service life on exposed balconies in ${locality}.`,
-    area.serviceDemandNotes.join(" "),
-    `Popular property patterns in ${locality} include ${area.propertyTypes.join(", ")}. We adapt cable spacing and frame finishing to each property type rather than using one fixed layout.`,
-  ];
-
-  const pricingNotes = [
-    `Invisible grills price in ${locality} depends on total square footage, floor height, access difficulty, cable grade (SS304 vs SS316) and custom spacing for child or pet safety.`,
-    `Indicative ranges for ${city} projects often fall between economy cable systems and premium SS316 packages. Your free site visit in ${locality} confirms exact quantity and hardware.`,
-    `Ask for a written quotation that lists material grade, measured openings, warranty terms and what is included — scaffolding, society permissions or weekend work may affect final cost.`,
-    `Compare installers on measurement process and cable quality, not headline rate alone. Loose tension or unmarked cables can fail sooner in ${locality}'s sun and rain exposure.`,
-  ];
-
-  const materialsNotes = [
-    `For invisible grills installation in ${locality}, we primarily recommend premium SS316 stainless steel cables for superior rust and corrosion resistance.`,
-    `SS304 remains a reliable option for standard residential openings with moderate exposure. Frames and end fittings are selected to match railing colour and surface type.`,
-    `Cable spacing is planned for your household — tighter layouts for toddlers and pets, balanced spacing where view retention is the priority.`,
-    `All hardware used on ${locality} projects is chosen for tensile strength and neat finishing, with warranty support on materials and workmanship.`,
-  ];
-
-  const comparisonNotes = [
-    `Invisible grills vs conventional iron grills in ${locality}: cable systems preserve views and light; iron grills cost less upfront but dominate the facade and reduce openness.`,
-    `Invisible grills vs safety nets: many families combine both — rigid cable protection on edges plus mesh for bird control or extra child safety on selected openings.`,
-    `DIY kits vs professional installation: incorrect fixing is the most common failure we see on callback visits. Measurement-led installation protects warranty and safety outcomes.`,
-  ];
+  const comparisonNotes = shuffleBySeed(
+    [
+      `Invisible grills vs iron grills in ${locality}: cables keep light and skyline views; iron work is more opaque and facade-heavy.`,
+      `Some ${locality} families pair invisible grills on edges with safety nets where bird control is also needed.`,
+      `Professional installation in ${locality} reduces the callback risk we see from poorly tensioned DIY kits.`,
+    ],
+    seed + 7,
+  );
 
   const maintenanceNotes = [
-    `After invisible grills installation in ${locality}, wipe cables with a dry cloth periodically and avoid harsh chemicals.`,
-    `Schedule a quick visual check after monsoon — look for sagging, loose end fittings or impact damage from sports or construction debris.`,
-    `${company} provides WhatsApp support for tension checks, section replacements and warranty questions across ${locality} and nearby areas.`,
+    `After installation in ${locality}, wipe cables with a soft dry cloth and avoid harsh chemicals.`,
+    `Check for sagging or impact damage after monsoon — ${company} can advise on re-tensioning for ${locality} sites.`,
+    `WhatsApp support covers warranty questions and follow-up visits across ${locality} and nearby ${city} areas.`,
   ];
 
-  const cta = `Looking for professional invisible grill installation in ${locality}? Contact ${company} today for a free site inspection and quotation.`;
+  const cta = `Looking for invisible grill installation in ${locality}? Request a free site assessment from ${company}.`;
+
+  const applicationPool = [
+    mix.hasApartments ? "Apartment balconies" : null,
+    mix.hasApartments ? "High-rise windows" : null,
+    mix.hasVillas ? "Villa sit-outs" : null,
+    mix.hasVillas ? "Staircase edges" : null,
+    mix.hasGated ? "Gated-community balconies" : null,
+    mix.hasCommercial ? "Commercial ledges" : null,
+    "Child-safety openings",
+    "Pet-safe railing gaps",
+    "French windows",
+    "Terrace edges",
+  ].filter(Boolean) as string[];
+  const applications = shuffleBySeed(applicationPool, seed).slice(0, 6);
 
   const ourServices = OUR_SERVICES.map((item) => {
     const intent = getKeywordIntentBySlug(item.intentSlug);
@@ -369,66 +397,15 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     };
   });
 
-  const faqs: FaqItem[] = [
-    {
-      question: `What is the price of invisible grills in ${locality}?`,
-      answer: `Pricing depends on the installation area, floor height and cable specifications in ${locality}. Contact ${company} for a free quotation after site measurement.`,
-    },
-    {
-      question: "Which stainless steel cable do you use?",
-      answer:
-        "We use premium SS316 stainless steel cables for durability and corrosion resistance, with SS304 options for standard residential applications.",
-    },
-    {
-      question: "Are invisible grills safe for children?",
-      answer:
-        "Yes. They are designed to provide excellent safety for children and pets when spacing is planned for your household during inspection.",
-    },
-    {
-      question: "How many days does installation take?",
-      answer:
-        "Most installations are completed within 1–2 days after measurement, depending on opening count and society access timings.",
-    },
-    {
-      question: "Do you provide warranty?",
-      answer: "Yes. Warranty is provided on installation and materials as listed in your written quotation.",
-    },
-    {
-      question: `Do you install balcony invisible grills in ${locality} apartments?`,
-      answer: `Yes. Balcony and window invisible grills for apartments, villas and high-rise homes are our most common ${locality} projects.`,
-    },
-    {
-      question: `Can I get invisible grills cost per square feet in ${locality}?`,
-      answer: `We share indicative per sq ft ranges and confirm exact cost after measuring your openings in ${locality}. Photo-only quotes are not accurate.`,
-    },
-    {
-      question: "Is drilling required for installation?",
-      answer:
-        "Most installations use secure fixing to railing posts, frames or approved surfaces. We explain the method during the free site visit.",
-    },
-    {
-      question: `Do you serve nearby areas around ${locality}?`,
-      answer: `Yes. We regularly install across ${nearbyAreas
-        .slice(0, 5)
-        .map((a) => a.name)
-        .join(", ")} and many more ${city} localities.`,
-    },
-    {
-      question: "How do I book a free site visit?",
-      answer: `Call ${BUSINESS_CONFIG.phone.display} or WhatsApp ${BUSINESS_CONFIG.whatsapp.display} with your ${locality} address and opening photos.`,
-    },
-    {
-      question: `Are invisible grills suitable for west-facing balconies in ${locality}?`,
-      answer:
-        "Yes. We recommend corrosion-resistant SS316 cables and quality end fittings for sun-exposed and monsoon-facing openings.",
-    },
-    {
-      question: "Can you repair or upgrade existing invisible grills?",
-      answer: `We handle re-tensioning, section replacement and upgrades for existing installations in ${locality}. Send photos for a preliminary assessment.`,
-    },
-  ];
+  const faqs: FaqItem[] = buildUniqueLocalityFaqs({
+    locality,
+    city,
+    company,
+    area,
+    nearbyNames,
+  });
 
-  const highIntentLinks = buildHighIntentLinks(area, citySlug);
+  const highIntentLinks = buildHighIntentLinks(area, citySlug).slice(0, 24);
   const nearbyLocalityLinks = nearbyAreas.map((nearby) => ({
     label: `Invisible Grills Installation in ${nearby.name}`,
     href: buildInvisibleGrillsInstallationPath(nearby.slug),
@@ -444,99 +421,95 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
   const allInternalLinks = [
     ...highIntentLinks,
     ...nearbyLocalityLinks,
-    ...moreLocalityLinks,
+    ...moreLocalityLinks.slice(0, 24),
     ...serviceLinks,
     ...ourServices.map((s) => ({ label: s.title, href: s.href, group: "service-type" })),
   ];
 
+  const processParagraphs = shuffleBySeed(
+    [
+      `In ${locality} we start with enquiry and photos, then an on-site measurement of every opening you want protected.`,
+      `Next comes material recommendation (SS304 or SS316), spacing for safety needs, and a written quotation for ${locality}.`,
+      `Installation day covers frame/anchor preparation, cable fixing, tensioning and a final safety check before handover.`,
+      `Society or gated-community access in ${locality} is planned up front so technicians arrive in the approved window.`,
+    ],
+    seed + 11,
+  );
+
   const sections: ContentSection[] = [
     {
       id: "overview",
-      heading: `Complete guide to invisible grills installation in ${locality}`,
+      heading: `Invisible grills installation in ${locality}`,
       paragraphs: introExtended,
-      listItems: [
-        `Balcony invisible grills in ${locality}`,
-        `Window invisible grills for apartments and villas`,
-        `Child and pet safety cable spacing`,
-        `SS316 rust-resistant materials`,
-        `Free site visit and written quotation`,
-      ],
+      listItems: uniqueLocal.listItems.slice(0, 6),
+    },
+    {
+      id: "local-demand",
+      heading: `Why this service matters in ${locality}`,
+      paragraphs: whyLocalityExtended,
+      listItems: area.localCharacteristics.slice(0, 6),
     },
     {
       id: "pricing",
-      heading: `Invisible grills price & cost factors in ${locality}`,
+      heading: `Pricing factors for ${locality}`,
       paragraphs: pricingNotes,
       listItems: [
-        "Opening size and total sq ft",
-        "Floor height and access",
-        "SS304 vs SS316 cable grade",
-        "Custom child/pet spacing",
-        "Multi-balcony packages",
+        "Measured opening size",
+        "Floor access",
+        "Cable grade",
+        "Custom spacing",
+        "Number of openings",
       ],
     },
     {
       id: "materials",
-      heading: `SS316 materials used for ${locality} installations`,
+      heading: `Materials & quality for ${locality} installs`,
       paragraphs: materialsNotes,
     },
     {
       id: "comparison",
-      heading: "Invisible grills vs iron grills vs safety nets",
+      heading: "Invisible grills vs other options",
       paragraphs: comparisonNotes,
     },
     {
       id: "process",
-      heading: `Our installation process in ${locality}`,
-      paragraphs: [
-        `Every ${locality} project follows a clear path: enquire, inspect, quote, install and hand over. Skipping measurement is where cheap installations fail — we do not skip it.`,
-      ],
+      heading: `Installation process in ${locality}`,
+      paragraphs: processParagraphs,
     },
     {
       id: "maintenance",
-      heading: "Maintenance, repair & after-sales support",
+      heading: "Maintenance & after-sales",
       paragraphs: maintenanceNotes,
-    },
-    {
-      id: "local-demand",
-      heading: `Why homeowners in ${locality} choose invisible grills`,
-      paragraphs: whyLocalityExtended,
-      listItems: area.localCharacteristics,
     },
   ];
 
-  const longform = buildUltraLongformSeo({
-    topic: "Invisible Grills Installation",
-    placeName: locality,
-    cityName: city,
-    company,
-    serviceSlug: "invisible-grills",
-    areaSlug: area.slug,
-    pageType: "invisible-grills-installation-in-locality",
-  });
-
-  const combinedFaqs = [...faqs, ...longform.faqs];
+  // Lightweight related blocks — no 45k-word padding bank
+  const longformBlocks: ContentBlock[] = [
+    {
+      type: "rich-text",
+      heading: `Service coverage around ${locality}`,
+      paragraphs: [
+        `${company} serves ${locality} within ${city}${area.district ? `, ${area.district}` : ""}${area.state ? `, ${area.state}` : ""}.`,
+        nearbyNames.length
+          ? `Nearby localities with active coverage include ${nearbyNames.slice(0, 8).join(", ")}.`
+          : `Share your landmark in ${locality} when you enquire so we confirm the next inspection slot.`,
+      ],
+    },
+  ];
 
   const tableOfContents = [
     { label: "Overview", href: "#overview" },
+    { label: `Why ${locality}`, href: "#local-demand" },
     { label: "Why choose us", href: "#why-choose-us" },
-    { label: "High-intent services", href: "#high-intent" },
-    { label: "Our services", href: "#our-services" },
     { label: "Applications", href: "#applications" },
     { label: "Benefits", href: "#benefits" },
     { label: "Pricing", href: "#pricing" },
     { label: "Materials", href: "#materials" },
     { label: "Process", href: "#process" },
-    { label: "Comparison", href: "#comparison" },
-    { label: `Why ${locality}`, href: "#local-demand" },
     { label: "Gallery", href: "#gallery" },
     { label: "Nearby areas", href: "#nearby-areas" },
-    { label: "More localities", href: "#more-localities" },
-    { label: "Related services", href: "#related-services" },
-    { label: "SEO deep guide", href: "#seo-deep-guide" },
-    { label: "Coverage directory", href: "#seo-areas-1" },
     { label: "FAQs", href: "#faqs" },
     { label: "Get a quote", href: "#quote" },
-    ...longform.tableOfContents.slice(0, 20),
   ];
 
   const imageAlts = IMAGE_ALT_TEMPLATES.map((template) => fillLocality(template, locality));
@@ -545,19 +518,19 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     `Hi, I need invisible grills installation in ${locality}. Please share a free site visit.`,
   );
 
-  const wordCountEstimate =
-    estimateWords([
-      ...introExtended,
-      ...whyLocalityExtended,
-      ...pricingNotes,
-      ...materialsNotes,
-      ...comparisonNotes,
-      ...maintenanceNotes,
-      ...faqs.flatMap((f) => [f.question, f.answer]),
-      cta,
-      ...WHY_CHOOSE_US,
-      ...APPLICATIONS,
-    ]) + longform.wordCount;
+  const wordCountEstimate = estimateWords([
+    ...introExtended,
+    ...whyLocalityExtended,
+    ...pricingNotes,
+    ...materialsNotes,
+    ...comparisonNotes,
+    ...maintenanceNotes,
+    ...processParagraphs,
+    ...faqs.flatMap((f) => [f.question, f.answer]),
+    cta,
+    ...WHY_CHOOSE_US,
+    ...applications,
+  ]);
 
   return {
     locality,
@@ -574,7 +547,7 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     cta,
     whyChooseUs: [...WHY_CHOOSE_US],
     ourServices,
-    applications: [...APPLICATIONS],
+    applications,
     benefits: BENEFITS,
     processSteps: PROCESS_STEPS,
     pricingNotes,
@@ -582,10 +555,10 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     comparisonNotes,
     maintenanceNotes,
     sections,
-    longformBlocks: longform.blocks,
+    longformBlocks,
     nearbyAreas,
     moreAreas,
-    faqs: combinedFaqs,
+    faqs,
     highIntentLinks,
     nearbyLocalityLinks,
     moreLocalityLinks,
