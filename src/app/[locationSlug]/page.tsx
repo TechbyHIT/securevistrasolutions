@@ -8,9 +8,19 @@ import { getLocationBySlug, getLocationById } from "@/data/initial-locations";
 import { getAreaBySlug } from "@/data/initial-areas";
 import { parseServiceInCitySlug } from "@/lib/utils/service-in-city-slug";
 import { parseInstallationInLocalitySlug } from "@/lib/utils/installation-in-locality-slug";
+import { getPriorityCompositeStaticParams } from "@/lib/seo/priority-seo-pages";
 
+/**
+ * Selective build-time pre-render for Hyderabad priority pages only.
+ * All other valid composite URLs still render via ISR (dynamicParams=true).
+ * Indexability / sitemap are NOT controlled by this list.
+ */
 export const dynamicParams = true;
 export const revalidate = 86400;
+
+export async function generateStaticParams() {
+  return getPriorityCompositeStaticParams();
+}
 
 type Props = { params: Promise<{ locationSlug: string }> };
 

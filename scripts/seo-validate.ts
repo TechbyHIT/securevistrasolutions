@@ -16,6 +16,11 @@ import { isSitemapIndexablePage } from "../src/lib/seo/is-page-sitemap-indexable
 import { SITE_CONFIG } from "../src/config/site.ts";
 import { SEO_CONFIG } from "../src/config/seo.ts";
 import { buildInvisibleGrillsInstallationPath } from "../src/lib/utils/installation-in-locality-slug.ts";
+import {
+  countHyderabadSeoCoverage,
+  getPrioritySeoPages,
+} from "../src/lib/seo/priority-seo-pages.ts";
+import { resolveSeoPage } from "../src/lib/seo/resolve-seo-page.ts";
 
 resetSitemapEntryCache();
 const entries = getAllSitemapEntries();
@@ -125,13 +130,44 @@ const uniquenessFails = samples.filter((s) => s.uniqueVsPeer.startsWith("FAIL"))
 const notInSitemap = samples.filter((s) => !s.inSitemap);
 const notIndexable = samples.filter((s) => !s.indexable);
 
+const coverage = countHyderabadSeoCoverage();
+const priorityPages = getPrioritySeoPages();
+
+// Resolve checks: priority (static) + a non-priority ISR candidate
+const resolveChecks = [
+  resolveSeoPage("invisible-grills-installation-in-gachibowli"),
+  resolveSeoPage("invisible-grills-in-hyderabad"),
+  resolveSeoPage("invisible-grills-installation-in-miyapur"),
+].map((resolved) =>
+  resolved
+    ? {
+        path: resolved.path,
+        kind: resolved.kind,
+        indexable: resolved.indexable,
+        ok: true,
+      }
+    : { path: null, kind: null, indexable: false, ok: false },
+);
+
 const report = {
   generatedAt: new Date().toISOString(),
   site: SITE_CONFIG.url,
+  coverage,
+  buildTimePriority: {
+    count: priorityPages.length,
+    sample: priorityPages.slice(0, 15).map((p) => ({
+      path: p.path,
+      kind: p.kind,
+      priority: p.priority,
+    })),
+  },
+  resolveChecks,
   totals: {
     sitemapUrls: entries.length,
     installationLocalities: areas.length,
     installationMissingFromSitemap: missingFromSitemap.length,
+    buildTimeCompositePages: coverage.buildTimeCompositePages,
+    dynamicIsrInstallationPages: coverage.dynamicIsrInstallationPages,
     sampleSize: samples.length,
     thinIntros: thinIntros.length,
     metaErrors: metaErrors.length,
@@ -140,8 +176,10 @@ const report = {
     sampleNotIndexable: notIndexable.length,
   },
   notes: [
-    "Sitemap must only list URLs that pass isSitemapIndexablePage (no area hubs / service-area).",
-    "Installation locality pages are the primary programmatic indexable set.",
+    "generateStaticParams() pre-renders Hyderabad priority pages only.",
+    "Sitemap lists ALL approved indexable URLs (independent of static params).",
+    "dynamicParams=true + revalidate=86400 keeps remaining valid pages on ISR.",
+    "Sitemap must only list URLs that pass isSitemapIndexablePage.",
   ],
   unexpectedNoindexGroups,
   missingFromSitemap: missingFromSitemap.slice(0, 20),
@@ -154,7 +192,7 @@ writeFileSync(
   JSON.stringify(report, null, 2),
 );
 
-console.log(JSON.stringify(report.totals, null, 2));
+console.log(JSON.stringify({ coverage, totals: report.totals }, null, 2));
 console.log(`Wrote reports/seo-validate.json (${samples.length} locality samples)`);
 
 const failed =
@@ -162,7 +200,8 @@ const failed =
   thinIntros.length > 0 ||
   uniquenessFails.length > 0 ||
   notInSitemap.length > 0 ||
-  notIndexable.length > 0;
+  notIndexable.length > 0 ||
+  resolveChecks.some((c) => !c.ok || !c.indexable);
 
 if (failed) {
   console.error("seo:validate FAILED — see reports/seo-validate.json");

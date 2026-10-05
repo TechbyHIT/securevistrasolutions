@@ -26,9 +26,17 @@ npm run build           # catalog → sitemap → next build
 
 Low-RAM VPS: `SITEMAP_PHASE=1 bash scripts/deploy-vps.sh` (hubs + menu services only).
 
-After deploy, resubmit only `https://securevistasolutions.in/sitemap.xml` in GSC.
+## Selective static generation (Hyderabad priority)
 
----
+`generateStaticParams()` on `/[locationSlug]/` pre-renders **priority** Hyderabad pages only (services × city + top localities for invisible-grills installation).
+
+- `dynamicParams = true` — all other **valid** pages still return HTTP 200 via ISR (`revalidate = 86400`)
+- Sitemap / robots / indexability are **independent** of the static list
+- Source: `src/lib/seo/priority-seo-pages.ts`
+
+```bash
+npm run seo:validate
+```
 
 ## Full one-command setup (recommended)
 

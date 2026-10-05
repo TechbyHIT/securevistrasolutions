@@ -81,3 +81,21 @@ describe("unique locality content", () => {
     expect(localitySeed("gachibowli")).not.toBe(localitySeed("madhapur"));
   });
 });
+
+describe("priority static params vs sitemap", () => {
+  it("pre-renders a subset; sitemap stays larger and independent", async () => {
+    const { getPrioritySeoPages, getPriorityCompositeStaticParams, countHyderabadSeoCoverage } =
+      await import("@/lib/seo/priority-seo-pages");
+    const priority = getPrioritySeoPages();
+    const params = getPriorityCompositeStaticParams();
+    const coverage = countHyderabadSeoCoverage();
+    const sitemap = getAllSitemapEntries();
+
+    expect(params.length).toBe(priority.length);
+    expect(params.length).toBeGreaterThan(5);
+    expect(params.length).toBeLessThan(sitemap.length);
+    expect(coverage.servedLocalities).toBeGreaterThan(coverage.priorityLocalities);
+    expect(coverage.sitemapUrls).toBe(sitemap.length);
+    expect(priority.every((p) => p.citySlug === "hyderabad")).toBe(true);
+  });
+});
