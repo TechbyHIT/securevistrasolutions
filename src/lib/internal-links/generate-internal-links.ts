@@ -106,7 +106,7 @@ export function generateInternalLinks(page: PageRecord): InternalLink[] {
         if (area) {
           add(
             intent.label,
-            `/${location.slug}/${area.slug}/${service.slug}/${intent.slug}/`,
+            `/${location.slug}/${area.slug}/${service.slug}/`,
           );
         }
       }
@@ -121,7 +121,7 @@ export function generateInternalLinks(page: PageRecord): InternalLink[] {
       for (const intent of getSampleIntentsForService(service.slug, 20)) {
         add(
           intent.label,
-          `/${location.slug}/${area.slug}/${service.slug}/${intent.slug}/`,
+          `/${location.slug}/${area.slug}/${service.slug}/`,
         );
       }
     }
@@ -145,7 +145,7 @@ export function generateInternalLinks(page: PageRecord): InternalLink[] {
         if (intent.slug === page.intentSlug) continue;
         add(
           intent.label,
-          `/${location.slug}/${area.slug}/${service.slug}/${intent.slug}/`,
+          `/${location.slug}/${area.slug}/${service.slug}/`,
         );
       }
     }
@@ -158,7 +158,7 @@ export function generateInternalLinks(page: PageRecord): InternalLink[] {
       for (const intent of getSampleIntentsForLinking(36)) {
         add(
           intent.label,
-          `/${location.slug}/${area.slug}/${intent.serviceSlug}/${intent.slug}/`,
+          `/${location.slug}/${area.slug}/${intent.serviceSlug}/`,
         );
       }
     }

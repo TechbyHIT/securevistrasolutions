@@ -30,13 +30,16 @@ describe("build-time sitemap (indexable-only)", () => {
     }
   });
 
-  it("includes installation localities and excludes noindex service-area / area hubs", () => {
+  it("includes installation localities, area hubs, and service-area pages", () => {
     const urls = getAllSitemapEntries().map((e) => e.url);
     expect(urls.some((u) => u.includes("invisible-grills-installation-in-"))).toBe(true);
     expect(urls.some((u) => u.includes("invisible-grills-in-hyderabad"))).toBe(true);
-    expect(urls.some((u) => /\/locations\/hyderabad\/[^/]+\/$/.test(u))).toBe(false);
-    expect(urls.some((u) => /\/hyderabad\/[^/]+\/invisible-grills\/$/.test(u))).toBe(false);
+    expect(urls.some((u) => /\/locations\/hyderabad\/[^/]+\/$/.test(u))).toBe(true);
+    expect(urls.some((u) => /\/hyderabad\/[^/]+\/invisible-grills\/$/.test(u))).toBe(true);
+    expect(urls.some((u) => u.includes("/privacy-policy"))).toBe(true);
     expect(urls.some((u) => u.includes("/thank-you"))).toBe(false);
+    // Deep intent URLs stay out of the sitemap (noindex).
+    expect(urls.some((u) => /\/hyderabad\/[^/]+\/[^/]+\/[^/]+\/$/.test(u))).toBe(false);
   });
 
   it("shards under Google's 50k limit", () => {
@@ -65,7 +68,7 @@ describe("unique locality content", () => {
     expect(cb.introExtended.join(" ").split(/\s+/).length).toBeGreaterThanOrEqual(100);
     expect(ca.title).not.toBe(cb.title);
     expect(ca.metaDescription).not.toBe(cb.metaDescription);
-    expect(ca.faqs.length).toBeLessThanOrEqual(10);
+    expect(ca.faqs.length).toBeGreaterThanOrEqual(10);
     expect(ca.faqs[0]?.question).not.toBe(cb.faqs[0]?.question);
 
     const norm = (text: string, loc: string, city: string) =>

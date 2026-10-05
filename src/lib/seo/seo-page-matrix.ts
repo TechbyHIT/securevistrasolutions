@@ -64,14 +64,14 @@ const CORE_INDEXABLE: { path: string; priority: number }[] = [
   { path: "/safety-guide/", priority: 0.6 },
   { path: "/about/", priority: 0.5 },
   { path: "/contact/", priority: 0.8 },
+  { path: "/privacy-policy/", priority: 0.3 },
+  { path: "/terms-and-conditions/", priority: 0.3 },
+  { path: "/disclaimer/", priority: 0.3 },
 ];
 
-/** Legal / utility pages — published but intentionally noindex. */
+/** Legal / utility pages — thank-you stays noindex; legal pages are indexable. */
 export const SEO_INTENTIONAL_NOINDEX_PATHS = new Set([
   "/thank-you/",
-  "/privacy-policy/",
-  "/terms-and-conditions/",
-  "/disclaimer/",
 ]);
 
 /**

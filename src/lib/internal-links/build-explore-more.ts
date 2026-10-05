@@ -117,9 +117,10 @@ export function buildExploreMoreSection(input: BuildExploreMoreInput): ExploreMo
     ? seededShuffle(
         getSampleIntentsForService(service.slug, 24).map((intent) => ({
           label: intent.label,
+          // Indexable service×area (or service-in-city) — never deep noindex intents.
           href: area
-            ? `/${citySlug}/${area.slug}/${service.slug}/${intent.slug}/`
-            : buildIntentPageUrl(service.slug, intent.slug),
+            ? `/${citySlug}/${area.slug}/${service.slug}/`
+            : buildServiceInCityPath(service.slug, citySlug),
         })),
         seed + 33,
       )
@@ -569,7 +570,6 @@ export function buildExploreMoreSection(input: BuildExploreMoreInput): ExploreMo
         { label: "Contact page", href: "/contact/" },
         { label: "Request a quote", href: "/contact/" },
         { label: `Call ${BUSINESS_CONFIG.phone.display}`, href: `tel:${BUSINESS_CONFIG.phone.raw}` },
-        { label: "Thank you page", href: "/thank-you/" },
         { label: "About us", href: "/about/" },
         { label: "FAQs", href: "/faq/" },
         { label: "Pricing guide", href: "/pricing-guide/" },

@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         disallow: ["/admin/", "/api/", "/thank-you/", "/*?*"],
-        // Privacy/terms/disclaimer are noindex via page metadata (still crawlable).
+        // Legal pages are indexable. Thank-you stays disallowed + noindex.
       },
     ],
     sitemap: `${SITE_CONFIG.url}/sitemap.xml`,

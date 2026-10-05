@@ -196,7 +196,23 @@ export function buildInvisibleGrillsLocalityLinks() {
   }));
 }
 
+/**
+ * Public link target for keyword/intent navigation.
+ * Deep intent URLs (`/city/area/service/intent/`) stay ISR-reachable but noindex.
+ * Public links MUST point at indexable service×area pages so crawlers Add them
+ * instead of Skipping noindex URLs.
+ */
 export function buildIntentPageUrl(
+  serviceSlug: string,
+  _intentSlug: string,
+  areaSlug = DEFAULT_MEGA_MENU_AREA,
+  locationSlug = DEFAULT_LOCATION_SLUG,
+): string {
+  return `/${locationSlug}/${areaSlug}/${serviceSlug}/`;
+}
+
+/** Canonical deep intent path (kept for routing/tests; do not use in public nav). */
+export function buildDeepIntentPageUrl(
   serviceSlug: string,
   intentSlug: string,
   areaSlug = DEFAULT_MEGA_MENU_AREA,
@@ -223,10 +239,8 @@ export function getMegaMenuLinkHref(
   link: MegaMenuLink,
   areaSlug = DEFAULT_MEGA_MENU_AREA,
 ): string {
-  if (link.intentSlug) {
-    return buildIntentPageUrl(link.serviceSlug, link.intentSlug, areaSlug);
-  }
-  return buildServiceLocationUrl(link.serviceSlug);
+  // Prefer indexable service×area pages over noindex deep-intent URLs.
+  return `/${DEFAULT_LOCATION_SLUG}/${areaSlug}/${link.serviceSlug}/`;
 }
 
 export function getMegaMenuColumnHref(column: MegaMenuColumn): string {
