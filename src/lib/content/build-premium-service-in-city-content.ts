@@ -686,24 +686,6 @@ export function buildPremiumServiceInCityLanding(
       ],
     },
     {
-      id: "sic-nearby-areas",
-      anchorId: "nearby-areas",
-      heading: `Localities we serve in ${city}`,
-      listItems: areas.slice(0, 50).map((a) => a.name),
-      paragraphs: [
-        `Coverage spans ${areas.length}+ neighbourhoods. If your area is not listed, contact us — ${city} service boundaries update as we verify new localities.`,
-      ],
-    },
-    {
-      id: "sic-nearby-cities",
-      anchorId: "nearby-cities",
-      heading: "Nearby cities & corridors",
-      listItems: cityProfile.nearbyCities,
-      paragraphs: [
-        `Primary installation focus is ${city}, ${ctx.state}. We occasionally support referral projects in nearby corridors — enquire if you are on the city outskirts.`,
-      ],
-    },
-    {
       id: "sic-related",
       anchorId: "related-services",
       heading: "Related services in " + city,

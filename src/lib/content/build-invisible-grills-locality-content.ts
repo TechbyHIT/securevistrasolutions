@@ -507,7 +507,7 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     { label: "Materials", href: "#materials" },
     { label: "Process", href: "#process" },
     { label: "Gallery", href: "#gallery" },
-    { label: "Nearby areas", href: "#nearby-areas" },
+    { label: "Related guides", href: "#related-guides" },
     { label: "FAQs", href: "#faqs" },
     { label: "Get a quote", href: "#quote" },
   ];

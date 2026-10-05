@@ -1,6 +1,5 @@
 import { BUSINESS_CONFIG } from "@/config/business";
 import { getServiceSeoProfile } from "@/data/service-seo-profiles";
-import { getAreaById } from "@/data/initial-areas";
 import type { Area } from "@/types/location";
 import type { Service } from "@/types/service";
 import type { ContentBlock, FaqItem } from "@/types/content";
@@ -12,17 +11,9 @@ type BuildServiceAreaContentInput = {
   area: Area;
 };
 
-function nearbyAreaNames(area: Area): string[] {
-  return area.nearbyLocationIds
-    .map((id) => getAreaById(id)?.name)
-    .filter((name): name is string => Boolean(name))
-    .slice(0, 4);
-}
-
 export function buildServiceAreaContentBlocks(input: BuildServiceAreaContentInput): ContentBlock[] {
   const { service, location, area } = input;
   const profile = getServiceSeoProfile(service.slug);
-  const nearby = nearbyAreaNames(area);
 
   return [
     {
@@ -68,21 +59,10 @@ export function buildServiceAreaContentBlocks(input: BuildServiceAreaContentInpu
     {
       id: "sa-why-us",
       anchorId: "why-us",
-      heading: `Best ${service.shortName.toLowerCase()} in ${area.name}`,
+      heading: `Why choose ${BUSINESS_CONFIG.name} for ${service.shortName.toLowerCase()} in ${area.name}`,
       subSections: profile.whyChooseUs,
       paragraphs: [
-        `Homeowners searching for the best ${service.name.toLowerCase()} in ${area.name} choose ${BUSINESS_CONFIG.name} for transparent quotes, quality materials and professional installation.`,
-      ],
-    },
-    {
-      id: "sa-near-me",
-      anchorId: "near-me",
-      heading: `${service.shortName} near me in ${area.name}`,
-      paragraphs: [
-        `Looking for ${service.name.toLowerCase()} near me in ${area.name}? We schedule free site visits across ${location.name}.`,
-        nearby.length > 0
-          ? `Nearby areas served: ${nearby.join(", ")}.`
-          : `We cover ${area.name} and surrounding Hyderabad residential localities.`,
+        `Households in ${area.name} choose ${BUSINESS_CONFIG.name} for measurement-led recommendations, named materials and professional installation — not keyword slogans.`,
       ],
     },
     {
@@ -90,7 +70,9 @@ export function buildServiceAreaContentBlocks(input: BuildServiceAreaContentInpu
       anchorId: "process",
       heading: "Installation process",
       subSections: profile.processSteps,
-      paragraphs: [],
+      paragraphs: [
+        `Installation for ${service.name.toLowerCase()} in ${area.name} starts with measurement and a written scope — not a location-swap sales script.`,
+      ],
     },
     {
       id: "sa-benefits",
@@ -104,7 +86,7 @@ export function buildServiceAreaContentBlocks(input: BuildServiceAreaContentInpu
       anchorId: "quote",
       heading: `Free site inspection in ${area.name}`,
       paragraphs: [
-        `Call ${BUSINESS_CONFIG.phone.display} or WhatsApp ${BUSINESS_CONFIG.whatsapp.display} for a free quote. Warranty up to ${profile.warrantyYears} on selected materials.`,
+        `Call ${BUSINESS_CONFIG.phone.display} or WhatsApp ${BUSINESS_CONFIG.whatsapp.display} for a free measurement visit and written quotation.`,
       ],
     },
   ];

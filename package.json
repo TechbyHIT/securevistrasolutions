@@ -27,6 +27,7 @@
     "pages:audit": "tsx scripts/content-audit.ts",
     "seo:audit": "tsx scripts/seo-audit.ts",
     "seo:validate": "tsx scripts/seo-validate.ts",
+    "seo:content-audit": "tsx scripts/seo-content-audit.ts",
     "content:audit": "tsx scripts/content-audit.ts",
     "duplicates:audit": "tsx scripts/duplicate-audit.ts",
     "links:audit": "tsx scripts/internal-link-audit.ts",

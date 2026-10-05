@@ -14,7 +14,6 @@ import { TableOfContents } from "@/components/sections/TableOfContents";
 import { ContentArticle } from "@/components/sections/ContentArticle";
 import { ServiceSidebar } from "@/components/sections/ServiceSidebar";
 import { ImageGallery } from "@/components/sections/ImageGallery";
-import { CustomerReviews } from "@/components/sections/CustomerReviews";
 import { SeoInternalLinkBoard } from "@/components/sections/SeoInternalLinkBoard";
 import { buildPageContent } from "@/lib/content/build-page-content";
 import { generateInternalLinks } from "@/lib/internal-links/generate-internal-links";
@@ -26,7 +25,6 @@ import { faqSchema } from "@/lib/schema/faq-schema";
 import { serviceSchema } from "@/lib/schema/service-schema";
 import { localBusinessSchema } from "@/lib/schema/local-business-schema";
 import { organizationSchema } from "@/lib/schema/organization-schema";
-import { aggregateRatingSchema } from "@/lib/schema/aggregate-rating-schema";
 import { imageSchema } from "@/lib/schema/image-schema";
 import { BUSINESS_CONFIG } from "@/config/business";
 import { getServiceById } from "@/data/initial-services";
@@ -88,13 +86,8 @@ export function ProgrammaticPage({ page, breadcrumbs, showHero = true, heroImage
         areaServed: location.name,
       }),
     );
-    if (reviews?.length) {
-      schemas.push(
-        aggregateRatingSchema({
-          itemName: page.h1,
-          reviews,
-        }),
-      );
+    if (reviews && reviews.length > 0) {
+      // Intentionally skipped: do not emit AggregateRating from generated reviews.
     }
   }
 
@@ -203,10 +196,6 @@ export function ProgrammaticPage({ page, breadcrumbs, showHero = true, heroImage
                   images={galleryImages}
                   columns={3}
                 />
-              ) : null}
-
-              {page.pageType === "service-in-city" && reviews?.length ? (
-                <CustomerReviews reviews={reviews} />
               ) : null}
 
               {(page.pageType === "service-in-city" ? blocksAfterGallery : blocks).map((block) => (

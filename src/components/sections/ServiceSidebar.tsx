@@ -13,7 +13,6 @@ export function ServiceSidebar({
   areaName,
   serviceName,
   priceHighlight,
-  warrantyYears = "3–5 years",
 }: ServiceSidebarProps) {
   const whatsappText = encodeURIComponent(
     `Hi, I need ${serviceName ?? "installation"} in ${areaName ?? "Hyderabad"}. Please share details.`,
@@ -23,10 +22,10 @@ export function ServiceSidebar({
     <div className="space-y-4">
       {priceHighlight ? (
         <div className="rounded-xl border border-accent-200 bg-accent-50 p-5">
-          <p className="text-sm font-medium text-accent-800">Indicative price range</p>
+          <p className="text-sm font-medium text-accent-800">Indicative range</p>
           <p className="mt-2 text-2xl font-bold text-accent-900">{priceHighlight}</p>
           <p className="mt-2 text-xs text-accent-700">
-            Final quote after free site inspection in {areaName ?? "Hyderabad"}.
+            Final quotation only after free site inspection in {areaName ?? "Hyderabad"}.
           </p>
         </div>
       ) : null}
@@ -34,7 +33,7 @@ export function ServiceSidebar({
       <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5">
         <Heading level={3}>Book free inspection</Heading>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          Same-day callback · No advance for site visit · Written quotation
+          Measurement-led recommendation · Written quotation · No invented flat rates
         </p>
         <div className="mt-4 space-y-2">
           <Button href={`tel:${BUSINESS_CONFIG.phone.raw}`} variant="primary" className="w-full">
@@ -51,12 +50,12 @@ export function ServiceSidebar({
       </div>
 
       <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-5 text-sm">
-        <p className="font-semibold">Why homeowners choose us</p>
+        <p className="font-semibold">What you can expect</p>
         <ul className="mt-3 space-y-2 text-[var(--muted)]">
-          <li>10+ years installation experience</li>
-          <li>Warranty up to {warrantyYears}</li>
-          <li>Free measurement visit</li>
-          <li>Hyderabad-wide service coverage</li>
+          <li>Free on-site measurement visit</li>
+          <li>Named materials in written scope</li>
+          <li>Clear installation steps before work starts</li>
+          <li>Hyderabad service coverage with local scheduling</li>
         </ul>
       </div>
     </div>

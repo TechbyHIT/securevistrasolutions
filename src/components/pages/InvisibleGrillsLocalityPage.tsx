@@ -464,18 +464,25 @@ export function InvisibleGrillsLocalityPage({ page, area, service, breadcrumbs }
               </section>
             ) : null}
 
-            {/* Nearby areas */}
-            <section id="nearby-areas" className="scroll-mt-36">
-              <Heading level={2}>Nearby areas we serve</Heading>
+            {/* Related technical guides — not a nearby-area dump */}
+            <section id="related-guides" className="scroll-mt-36">
+              <Heading level={2}>Related planning guides</Heading>
               <p className="mt-3 text-sm text-[var(--muted)]">
-                Also installing invisible grills near {content.locality}. Each link is a dedicated locality page.
+                Continue with technical topics that help you choose materials, spacing and installation steps.
               </p>
               <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                {content.nearbyLocalityLinks.map((link) => (
+                {[
+                  { label: "All invisible grill services", href: "/services/invisible-grills/" },
+                  { label: "Invisible grills in Hyderabad", href: "/invisible-grills-in-hyderabad/" },
+                  { label: "Balcony safety nets", href: "/services/balcony-safety-nets/" },
+                  { label: "Installation process", href: "/installation-process/" },
+                  { label: "Materials guide", href: "/materials-guide/" },
+                  { label: "Request a free quote", href: "/contact/" },
+                ].map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="flex items-center justify-between rounded-xl border border-[var(--border)] px-4 py-3 text-sm font-medium text-primary-800 transition-colors hover:border-primary-300 hover:bg-primary-50"
+                      className="flex items-center justify-between border border-[var(--border)] px-4 py-3 text-sm font-medium text-primary-800 transition-colors hover:border-primary-300 hover:bg-primary-50"
                     >
                       {link.label}
                       <span aria-hidden="true" className="text-accent-500">
