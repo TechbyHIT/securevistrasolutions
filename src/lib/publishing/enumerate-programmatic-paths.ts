@@ -2,8 +2,7 @@ import { KEYWORD_INTENTS, getSitemapKeywordIntents } from "@/data/keyword-intent
 import { getPublishedLocations } from "@/data/initial-locations";
 import { getServedAreas } from "@/data/initial-areas";
 import { getPublishedServices } from "@/data/initial-services";
-import { SEO_CONFIG } from "@/config/seo";
-import { isPageIndexable } from "@/lib/seo/is-page-indexable";
+import { isSeoIndexablePage } from "@/lib/seo/is-page-sitemap-indexable";
 import type { PageRecord } from "@/types/page";
 import type { CrawlPriority } from "@/types/business";
 import {
@@ -30,10 +29,7 @@ type ProgrammaticContext = {
 };
 
 function passesIndexability(page: PageRecord): boolean {
-  return isPageIndexable({
-    ...page,
-    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700,
-  });
+  return isSeoIndexablePage(page) && page.allowIndexing && page.publicationStatus === "published";
 }
 
 export function getProgrammaticContext(): ProgrammaticContext | null {

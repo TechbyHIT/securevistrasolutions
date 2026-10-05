@@ -4,6 +4,7 @@ import { getAreaBySlug, getServedAreas } from "@/data/initial-areas";
 import { buildServiceInCityPath } from "@/lib/utils/service-in-city-slug";
 import { buildInvisibleGrillsInstallationPath } from "@/lib/utils/installation-in-locality-slug";
 import { getAllSitemapEntries } from "@/lib/sitemap-urls";
+import { getSeoPageMatrix } from "@/lib/seo/seo-page-matrix";
 
 /**
  * Hyderabad priority localities for BUILD-TIME pre-render only.
@@ -17,14 +18,14 @@ export const HYDERABAD_PRIORITY_LOCALITY_SLUGS = [
   "madhapur",
   "miyapur",
   "kukatpally",
-  "financial-district",
+  "financialdistrict", // alias: financial-district
   "jubilee-hills",
   "banjara-hills",
   "ameerpet",
   "begumpet",
   "sr-nagar",
   "manikonda",
-  "lb-nagar",
+  "lbnagar", // alias: lb-nagar
   "dilsukhnagar",
   "uppal",
   "secunderabad",
@@ -115,7 +116,7 @@ export function getPriorityCompositeStaticParams(): { locationSlug: string }[] {
  * Independent of generateStaticParams.
  */
 export function getApprovedIndexablePaths(): string[] {
-  return getAllSitemapEntries().map((entry) => new URL(entry.url).pathname);
+  return getSeoPageMatrix().map((entry) => entry.path);
 }
 
 export function countHyderabadSeoCoverage() {
@@ -124,11 +125,13 @@ export function countHyderabadSeoCoverage() {
   const priority = city ? verifiedPriorityLocalities(city.id).length : 0;
   const buildTime = getPrioritySeoPages().length;
   const sitemap = getAllSitemapEntries().length;
+  const matrix = getSeoPageMatrix().length;
   return {
     city: city?.slug ?? null,
     servedLocalities: served,
     priorityLocalities: priority,
     buildTimeCompositePages: buildTime,
+    approvedIndexablePages: matrix,
     sitemapUrls: sitemap,
     dynamicIsrInstallationPages: Math.max(0, served - priority),
   };

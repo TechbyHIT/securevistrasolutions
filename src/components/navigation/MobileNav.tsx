@@ -94,6 +94,15 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </button>
         </div>
         <ul className="flex-1 overflow-y-auto px-3 py-3">
+          <li className="mb-1">
+            <Link
+              href="/"
+              onClick={onClose}
+              className="block rounded-lg px-3 py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-50"
+            >
+              Home
+            </Link>
+          </li>
           {PRIMARY_NAV.map((item) => {
             if (item.megaMenu === "services") {
               const isOpen = expanded === "services";
@@ -238,19 +247,26 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </li>
         </ul>
         <div className="grid grid-cols-2 gap-2 border-t border-[var(--border)] p-4">
+          <Link
+            href="/contact/"
+            onClick={onClose}
+            className="col-span-2 flex items-center justify-center bg-accent-500 px-4 py-3 text-sm font-bold text-white"
+          >
+            Get Free Quote
+          </Link>
+          <a
+            href={`tel:${BUSINESS_CONFIG.phone.raw}`}
+            className="flex items-center justify-center border border-[var(--border)] px-4 py-3 text-sm font-bold text-primary-800"
+          >
+            Call Now
+          </a>
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="col-span-2 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-white shadow-md"
+            className="flex items-center justify-center bg-[#25D366] px-4 py-3 text-sm font-bold text-white"
           >
             WhatsApp
-          </a>
-          <a
-            href={`tel:${BUSINESS_CONFIG.phone.raw}`}
-            className="col-span-2 flex items-center justify-center rounded-full bg-accent-500 px-4 py-3 text-sm font-bold text-white shadow-md"
-          >
-            Call Now
           </a>
         </div>
       </nav>

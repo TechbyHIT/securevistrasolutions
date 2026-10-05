@@ -1,13 +1,11 @@
 import { notFound } from "next/navigation";
 import { generatePageMetadata } from "@/lib/seo/generate-page-metadata";
-import { getPublicPage } from "@/lib/pages/get-public-page";
 import { ProgrammaticPage } from "@/components/pages/ProgrammaticPage";
 import { InvisibleGrillsLocalityPage } from "@/components/pages/InvisibleGrillsLocalityPage";
 import { getServiceBySlug } from "@/data/initial-services";
 import { getLocationBySlug, getLocationById } from "@/data/initial-locations";
 import { getAreaBySlug } from "@/data/initial-areas";
-import { parseServiceInCitySlug } from "@/lib/utils/service-in-city-slug";
-import { parseInstallationInLocalitySlug } from "@/lib/utils/installation-in-locality-slug";
+import { resolveSeoPage } from "@/lib/seo/resolve-seo-page";
 import { getPriorityCompositeStaticParams } from "@/lib/seo/priority-seo-pages";
 
 /**
@@ -26,24 +24,20 @@ type Props = { params: Promise<{ locationSlug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { locationSlug } = await params;
-  const cityParsed = parseServiceInCitySlug(locationSlug);
-  const localityParsed = cityParsed ? null : parseInstallationInLocalitySlug(locationSlug);
-  if (!cityParsed && !localityParsed) return {};
-
-  const page = getPublicPage(`/${locationSlug}/`);
-  return page ? generatePageMetadata(page) : {};
+  const resolved = resolveSeoPage(locationSlug);
+  return resolved ? generatePageMetadata(resolved.page) : {};
 }
 
 export default async function CompositeSlugPage({ params }: Props) {
   const { locationSlug } = await params;
+  const resolved = resolveSeoPage(locationSlug);
+  if (!resolved) notFound();
 
-  const localityParsed = parseInstallationInLocalitySlug(locationSlug);
-  if (localityParsed) {
-    const page = getPublicPage(`/${locationSlug}/`);
-    if (!page) notFound();
+  const { page, kind } = resolved;
 
-    const service = getServiceBySlug(localityParsed.serviceSlug);
-    const area = getAreaBySlug(localityParsed.localitySlug);
+  if (kind === "invisible-grills-installation") {
+    const service = getServiceBySlug(resolved.serviceSlug!);
+    const area = getAreaBySlug(resolved.localitySlug!);
     if (!service || !area) notFound();
 
     const parent = getLocationById(area.parentId);
@@ -72,14 +66,10 @@ export default async function CompositeSlugPage({ params }: Props) {
     );
   }
 
-  const parsed = parseServiceInCitySlug(locationSlug);
-  if (!parsed) notFound();
+  if (kind !== "service-in-city") notFound();
 
-  const page = getPublicPage(`/${locationSlug}/`);
-  if (!page) notFound();
-
-  const service = getServiceBySlug(parsed.serviceSlug);
-  const location = getLocationBySlug(parsed.citySlug);
+  const service = getServiceBySlug(resolved.serviceSlug!);
+  const location = getLocationBySlug(resolved.citySlug!);
   if (!service || !location) notFound();
 
   return (

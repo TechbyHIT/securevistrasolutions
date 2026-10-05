@@ -13,7 +13,8 @@ export function generatePageMetadata(page: PageRecord): Metadata {
     minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700,
   });
 
-  // Only URLs listed in high-intent sitemaps should be indexed.
+  // Only URLs in the authoritative indexable matrix should be indexed.
+  // generateStaticParams() does NOT control this gate.
   const indexable =
     page.publicationStatus === "published" &&
     page.allowIndexing &&

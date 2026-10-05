@@ -1,12 +1,10 @@
 import { SITE_CONFIG } from "@/config/site";
 import { withTrailingSlash } from "@/config/routes";
-import { getPublishedServices } from "@/data/initial-services";
-import { getPublishedLocations } from "@/data/initial-locations";
-import { getServedAreas } from "@/data/initial-areas";
-import { getPublishedGuides } from "@/data/guides";
-import { getPublishedPosts } from "@/data/blog";
-import { buildServiceInCityPath } from "@/lib/utils/service-in-city-slug";
-import { buildInvisibleGrillsInstallationPath } from "@/lib/utils/installation-in-locality-slug";
+import {
+  getSeoPageMatrix,
+  resetSeoPageMatrixCache,
+  type SeoPageMatrixEntry,
+} from "@/lib/seo/seo-page-matrix";
 
 export type SitemapEntry = {
   url: string;
@@ -29,8 +27,10 @@ export const SITEMAP_SHARD_SIZE = 40_000;
  * Sitemap growth phase (1–4).
  * Override with env SITEMAP_PHASE=1 for emergency / low-RAM deploys.
  *
- * Phase rules intentionally exclude noindex groups (area hubs, service×area)
- * so sitemap and robots stay in sync.
+ * Phase 1: hubs + services + service×city only (no installation localities)
+ * Phase 2–4: full authoritative matrix (including all installation localities)
+ *
+ * Sitemap is NEVER derived from generateStaticParams().
  */
 function resolveSitemapPhase(): 1 | 2 | 3 | 4 {
   const raw = Number(process.env.SITEMAP_PHASE || 4);
@@ -39,13 +39,6 @@ function resolveSitemapPhase(): 1 | 2 | 3 | 4 {
 }
 export const SITEMAP_PHASE = resolveSitemapPhase();
 
-const FLAGSHIP_SERVICE_SLUGS = new Set([
-  "invisible-grills",
-  "balcony-safety-nets",
-  "children-safety-nets",
-  "pet-safety-nets",
-]);
-
 const BUILD_LASTMOD = new Date();
 
 function absoluteUrl(path: string): string {
@@ -53,132 +46,45 @@ function absoluteUrl(path: string): string {
   return `${SITE_CONFIG.url}${normalized === "/" ? "/" : normalized}`;
 }
 
-function toDate(value?: string | Date | null): Date {
-  if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
-  if (typeof value === "string" && value) {
-    const parsed = new Date(value);
-    if (!Number.isNaN(parsed.getTime())) return parsed;
+function changeFrequencyFor(kind: SeoPageMatrixEntry["kind"]): SitemapEntry["changeFrequency"] {
+  switch (kind) {
+    case "home":
+      return "daily";
+    case "service":
+    case "location":
+    case "service-in-city":
+    case "installation-locality":
+      return "weekly";
+    default:
+      return "monthly";
   }
-  return BUILD_LASTMOD;
+}
+
+function includeInPhase(entry: SeoPageMatrixEntry): boolean {
+  if (SITEMAP_PHASE >= 2) return true;
+  // Phase 1 emergency: drop locality installation pages to shrink sitemap
+  return entry.kind !== "installation-locality";
 }
 
 /**
  * Authoritative indexable URL list for sitemap + validation.
- * MUST stay aligned with `isSitemapIndexablePage` / generatePageMetadata.
- * Excludes: area hubs, service×area, property-types, solutions, intents, thank-you.
+ * Built from `getSeoPageMatrix()` — NOT from generateStaticParams().
  */
 function buildAllSitemapEntries(): SitemapEntry[] {
-  const locations = getPublishedLocations();
-  const services = getPublishedServices();
-  const guides = getPublishedGuides();
-  const posts = getPublishedPosts();
-
-  const menuServices = services.filter((s) => FLAGSHIP_SERVICE_SLUGS.has(s.slug));
-  const hubServices = SITEMAP_PHASE >= 2 ? services : menuServices;
-  const cityComboServices = SITEMAP_PHASE >= 2 ? services : menuServices;
-
+  const matrix = getSeoPageMatrix();
   const seen = new Set<string>();
   const entries: SitemapEntry[] = [];
 
-  function add(partial: {
-    path: string;
-    priority: number;
-    changeFrequency: SitemapEntry["changeFrequency"];
-    lastModified?: string | Date | null;
-  }) {
-    const url = absoluteUrl(partial.path);
-    if (seen.has(url)) return;
+  for (const page of matrix) {
+    if (!includeInPhase(page)) continue;
+    const url = absoluteUrl(page.path);
+    if (seen.has(url)) continue;
     seen.add(url);
     entries.push({
       url,
-      lastModified: toDate(partial.lastModified),
-      changeFrequency: partial.changeFrequency,
-      priority: partial.priority,
-    });
-  }
-
-  const staticPaths: [string, number, SitemapEntry["changeFrequency"]][] = [
-    ["/", 1.0, "daily"],
-    ["/services/", 0.9, "weekly"],
-    ["/locations/", 0.8, "weekly"],
-    ["/property-types/", 0.55, "monthly"],
-    ["/solutions/", 0.55, "monthly"],
-    ["/projects/", 0.7, "weekly"],
-    ["/testimonials/", 0.7, "weekly"],
-    ["/gallery/", 0.7, "weekly"],
-    ["/blog/", 0.7, "weekly"],
-    ["/guides/", 0.65, "monthly"],
-    ["/faq/", 0.6, "monthly"],
-    ["/pricing-guide/", 0.65, "monthly"],
-    ["/materials-guide/", 0.6, "monthly"],
-    ["/installation-process/", 0.65, "monthly"],
-    ["/safety-guide/", 0.6, "monthly"],
-    ["/about/", 0.5, "yearly"],
-    ["/contact/", 0.8, "monthly"],
-  ];
-  for (const [path, priority, changeFrequency] of staticPaths) {
-    add({ path, priority, changeFrequency });
-  }
-
-  for (const s of hubServices) {
-    add({
-      path: `/services/${s.slug}/`,
-      lastModified: s.updatedAt,
-      changeFrequency: "weekly",
-      priority: FLAGSHIP_SERVICE_SLUGS.has(s.slug) ? 0.9 : 0.65,
-    });
-  }
-
-  for (const loc of locations) {
-    // City hub — indexable (locations group)
-    add({
-      path: `/locations/${loc.slug}/`,
-      lastModified: loc.updatedAt,
-      changeFrequency: "weekly",
-      priority: 0.85,
-    });
-
-    // Service × city (indexable)
-    for (const s of cityComboServices) {
-      add({
-        path: buildServiceInCityPath(s.slug, loc.slug),
-        lastModified: s.updatedAt,
-        changeFrequency: "weekly",
-        priority: FLAGSHIP_SERVICE_SLUGS.has(s.slug) ? 0.85 : 0.55,
-      });
-    }
-
-    // High-intent locality installation pages only (indexable)
-    // Do NOT emit /locations/{city}/{area}/ (area hubs = noindex)
-    // Do NOT emit /{city}/{area}/{service}/ (service-area = noindex)
-    if (SITEMAP_PHASE >= 2) {
-      const areas = getServedAreas(loc.id).sort((a, b) => a.slug.localeCompare(b.slug));
-      for (const area of areas) {
-        add({
-          path: buildInvisibleGrillsInstallationPath(area.slug),
-          lastModified: area.updatedAt,
-          changeFrequency: "weekly",
-          priority: 0.85,
-        });
-      }
-    }
-  }
-
-  for (const guide of guides) {
-    add({
-      path: `/guides/${guide.slug}/`,
-      lastModified: guide.updatedAt,
-      changeFrequency: "monthly",
-      priority: 0.55,
-    });
-  }
-
-  for (const post of posts) {
-    add({
-      path: `/blog/${post.slug}/`,
-      lastModified: post.updatedAt,
-      changeFrequency: "monthly",
-      priority: 0.7,
+      lastModified: BUILD_LASTMOD,
+      changeFrequency: changeFrequencyFor(page.kind),
+      priority: page.priority,
     });
   }
 
@@ -194,6 +100,7 @@ export function getAllSitemapEntries(): SitemapEntry[] {
 
 export function resetSitemapEntryCache(): void {
   cachedEntries = null;
+  resetSeoPageMatrixCache();
 }
 
 function xmlEscape(value: string): string {

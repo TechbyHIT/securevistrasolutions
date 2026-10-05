@@ -186,7 +186,11 @@ export function createCorePages(): PageRecord[] {
           : `${item.h1}. ${BUSINESS_CONFIG.description}`,
       searchIntent: item.intent,
       publicationStatus: item.slug === "thank-you" ? "noindex" : "published",
-      allowIndexing: item.slug !== "thank-you",
+      allowIndexing:
+        item.slug !== "thank-you" &&
+        item.slug !== "privacy-policy" &&
+        item.slug !== "terms-and-conditions" &&
+        item.slug !== "disclaimer",
       contentReviewed: true,
       localDataVerified: true,
       qualityScore: 95,

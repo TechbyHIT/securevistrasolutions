@@ -346,9 +346,8 @@ export function getServiceSeoProfile(serviceSlug: string): ServiceSeoProfile {
 }
 
 export const TRUST_STATS = [
-  { value: "5000+", label: "Happy customers" },
-  { value: "10+", label: "Years experience" },
-  { value: "3–8 yr", label: "Warranty options" },
-  { value: "100%", label: "Free inspection" },
-  { value: "Hyderabad", label: "Wide coverage" },
+  { value: "Free", label: "Site inspection" },
+  { value: "Written", label: "Quotation" },
+  { value: "SS / Net", label: "Quality materials" },
+  { value: "Local", label: "Hyderabad coverage" },
 ] as const;

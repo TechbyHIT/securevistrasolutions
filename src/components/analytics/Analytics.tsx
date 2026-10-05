@@ -1,9 +1,17 @@
 import Script from "next/script";
 import { BUSINESS_CONFIG } from "@/config/business";
 
-/** Third-party tags load after the page is idle so they don't compete with LCP. */
+/** Third-party tags load after hydration so they don't compete with LCP. */
 export function Analytics() {
-  const { googleTagManagerId, googleAnalyticsId, metaPixelId, clarityId } = BUSINESS_CONFIG.analytics;
+  const {
+    googleTagManagerId,
+    googleAnalyticsId,
+    googleAdsId,
+    metaPixelId,
+    clarityId,
+  } = BUSINESS_CONFIG.analytics;
+
+  const gtagId = googleAdsId || (!googleTagManagerId ? googleAnalyticsId : undefined);
 
   return (
     <>
@@ -26,17 +34,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </>
       ) : null}
 
-      {googleAnalyticsId && !googleTagManagerId ? (
+      {gtagId ? (
         <>
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-            strategy="lazyOnload"
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+            strategy="afterInteractive"
           />
-          <Script id="ga" strategy="lazyOnload">{`
+          <Script id="gtag-init" strategy="afterInteractive">{`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${googleAnalyticsId}');
+            ${googleAdsId ? `gtag('config', '${googleAdsId}');` : ""}
+            ${
+              googleAnalyticsId && googleAnalyticsId !== googleAdsId
+                ? `gtag('config', '${googleAnalyticsId}');`
+                : ""
+            }
           `}</Script>
         </>
       ) : null}

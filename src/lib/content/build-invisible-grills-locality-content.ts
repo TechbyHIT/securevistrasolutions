@@ -30,7 +30,7 @@ export const WHY_CHOOSE_US = [
   "Rust & Corrosion Resistant",
   "Child & Pet Safety",
   "Balcony & Window Solutions",
-  "10+ Years Experience",
+  "Transparent Quotation",
   "Affordable Pricing",
   "Free Site Visit",
   "Warranty Support",
@@ -486,7 +486,7 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
   // Lightweight related blocks — no 45k-word padding bank
   const longformBlocks: ContentBlock[] = [
     {
-      type: "rich-text",
+      id: "service-coverage",
       heading: `Service coverage around ${locality}`,
       paragraphs: [
         `${company} serves ${locality} within ${city}${area.district ? `, ${area.district}` : ""}${area.state ? `, ${area.state}` : ""}.`,

@@ -31,7 +31,7 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
       setPending(false);
       setState({
         success: false,
-        message: "Please fix the errors below.",
+        message: "Please fix the highlighted fields and try again.",
         errors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
       });
       return;
@@ -55,7 +55,7 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
 
     setState({
       success: true,
-      message: "Opening WhatsApp with your quote request…",
+      message: "Quote request ready — opening WhatsApp…",
     });
     window.open(url, "_blank", "noopener,noreferrer");
     setPending(false);
@@ -70,8 +70,10 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
         <p
           role="status"
           className={cn(
-            "rounded-lg px-4 py-3 text-sm",
-            state.success ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800",
+            "border px-4 py-3 text-sm",
+            state.success
+              ? "border-green-200 bg-green-50 text-green-800"
+              : "border-red-200 bg-red-50 text-red-800",
           )}
         >
           {state.message}
@@ -89,7 +91,7 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
             type="text"
             required
             autoComplete="name"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+            className="w-full border border-[var(--border)] bg-white px-3 py-2.5 text-sm"
           />
           {state.errors?.name ? <p className="mt-1 text-xs text-red-600">{state.errors.name[0]}</p> : null}
         </div>
@@ -103,52 +105,16 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
             type="tel"
             required
             autoComplete="tel"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+            className="w-full border border-[var(--border)] bg-white px-3 py-2.5 text-sm"
           />
           {state.errors?.phone ? <p className="mt-1 text-xs text-red-600">{state.errors.phone[0]}</p> : null}
         </div>
       </div>
 
-      <div>
-        <label htmlFor="quote-email" className="mb-1 block text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="quote-email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="quote-service" className="mb-1 block text-sm font-medium">
-          Service *
-        </label>
-        <select
-          id="quote-service"
-          name="service"
-          required
-          defaultValue={defaultService ?? ""}
-          className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
-        >
-          <option value="" disabled>
-            Select a service
-          </option>
-          {services.map((s) => (
-            <option key={s.id} value={s.name}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-        {state.errors?.service ? <p className="mt-1 text-xs text-red-600">{state.errors.service[0]}</p> : null}
-      </div>
-
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="quote-area" className="mb-1 block text-sm font-medium">
-            Area in Hyderabad *
+            Location *
           </label>
           <input
             id="quote-area"
@@ -156,41 +122,54 @@ export function QuoteForm({ defaultService, className }: QuoteFormProps) {
             type="text"
             required
             placeholder="e.g. Gachibowli"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+            className="w-full border border-[var(--border)] bg-white px-3 py-2.5 text-sm"
           />
           {state.errors?.area ? <p className="mt-1 text-xs text-red-600">{state.errors.area[0]}</p> : null}
         </div>
         <div>
-          <label htmlFor="quote-property" className="mb-1 block text-sm font-medium">
-            Property type
+          <label htmlFor="quote-service" className="mb-1 block text-sm font-medium">
+            Service *
           </label>
-          <input
-            id="quote-property"
-            name="propertyType"
-            type="text"
-            placeholder="e.g. Apartment"
-            className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
-          />
+          <select
+            id="quote-service"
+            name="service"
+            required
+            defaultValue={defaultService ?? ""}
+            className="w-full border border-[var(--border)] bg-white px-3 py-2.5 text-sm"
+          >
+            <option value="" disabled>
+              Select a service
+            </option>
+            {services.map((s) => (
+              <option key={s.id} value={s.name}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+          {state.errors?.service ? (
+            <p className="mt-1 text-xs text-red-600">{state.errors.service[0]}</p>
+          ) : null}
         </div>
       </div>
 
       <div>
         <label htmlFor="quote-message" className="mb-1 block text-sm font-medium">
-          Additional details
+          Message
         </label>
         <textarea
           id="quote-message"
           name="message"
           rows={3}
-          className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+          placeholder="Openings, property type, preferred visit time…"
+          className="w-full border border-[var(--border)] bg-white px-3 py-2.5 text-sm"
         />
       </div>
 
       <Button type="submit" variant="accent" disabled={pending} className="w-full sm:w-auto">
-        {pending ? "Opening WhatsApp…" : "Send on WhatsApp"}
+        {pending ? "Preparing…" : "Request Free Quote"}
       </Button>
       <p className="text-xs text-[var(--muted)]">
-        Your details open in WhatsApp so our team can reply instantly.
+        Submits via WhatsApp so our team can reply quickly with next steps.
       </p>
     </form>
   );

@@ -1412,4 +1412,7 @@ export const AREA_SLUG_ALIASES: Record<string, string> = {
   "santosh-nagar": "santoshnagar",
   "hiteccity": "hitech-city",
   "srnagar": "sr-nagar",
+  "financial-district": "financialdistrict",
+  "lb-nagar": "lbnagar",
+  "l-b-nagar": "lbnagar",
 };

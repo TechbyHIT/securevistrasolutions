@@ -2,13 +2,23 @@ import { writeFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import {
   countByStatus,
-  countIndexablePages,
   getAllPages,
   getIndexablePages,
   getProgrammaticIndexablePages,
 } from "../src/lib/pages/registry";
-import { countProgrammaticIndexablePages } from "../src/lib/publishing/enumerate-programmatic-pages";
-import { countSitemapEntries } from "../src/lib/sitemap/get-sitemap-entries";
+import { getAllSitemapEntries, resetSitemapEntryCache } from "../src/lib/sitemap-urls";
+import {
+  countSeoPageMatrix,
+  getSeoPageMatrix,
+  resetSeoPageMatrixCache,
+} from "../src/lib/seo/seo-page-matrix";
+import {
+  countHyderabadSeoCoverage,
+  getPrioritySeoPages,
+} from "../src/lib/seo/priority-seo-pages";
+
+resetSeoPageMatrixCache();
+resetSitemapEntryCache();
 
 const counts = countByStatus();
 const pages = getAllPages();
@@ -18,9 +28,13 @@ for (const page of pages) {
   byType[page.pageType] = (byType[page.pageType] ?? 0) + 1;
 }
 
-const programmatic = countProgrammaticIndexablePages();
-const indexable = getIndexablePages();
-const indexableTotal = countIndexablePages();
+const matrix = countSeoPageMatrix();
+const sitemap = getAllSitemapEntries();
+const priority = getPrioritySeoPages();
+const coverage = countHyderabadSeoCoverage();
+const indexable = getIndexablePages().filter((page) =>
+  getSeoPageMatrix().some((entry) => entry.path === page.path),
+);
 const indexableByType: Record<string, number> = {};
 for (const page of indexable) {
   indexableByType[page.pageType] = (indexableByType[page.pageType] ?? 0) + 1;
@@ -32,29 +46,29 @@ const report = {
   database: "none — TypeScript data registry",
   totals: counts,
   byType,
-  programmaticIndexable: programmatic,
-  indexableMaterialized: indexable.length,
-  indexableTotal,
-  sitemapTotal: countSitemapEntries(),
-  sitemapByGroup: {
-    "service-area-intent": countSitemapEntries("service-area-intent"),
-    "service-area": countSitemapEntries("service-area"),
-    area: countSitemapEntries("area"),
-  },
+  authoritativeMatrix: matrix,
+  sitemapUrls: sitemap.length,
+  buildTimeCompositePages: priority.length,
+  coverage,
+  indexableMaterializedAligned: indexable.length,
   indexableByType,
   indexableSample: indexable.slice(0, 20).map((page) => page.path),
   programmaticSample: getProgrammaticIndexablePages()
     .slice(0, 10)
     .map((page) => page.path),
+  notes: [
+    "Authoritative sitemap = getSeoPageMatrix() / getAllSitemapEntries().",
+    "Legacy get-sitemap-entries (~74k) is NOT used for production sitemap.",
+    "generateStaticParams does not limit indexability.",
+  ],
 };
 
 mkdirSync(join(process.cwd(), "reports"), { recursive: true });
 writeFileSync(join(process.cwd(), "reports/page-count.json"), JSON.stringify(report, null, 2));
 
 console.log(JSON.stringify(report.totals, null, 2));
-console.log("byType:", byType);
-console.log("programmaticIndexable:", programmatic);
-console.log("indexableTotal:", indexableTotal);
-console.log("sitemapTotal:", countSitemapEntries());
-console.log("indexableByType:", indexableByType);
+console.log("authoritativeMatrix:", matrix);
+console.log("sitemapUrls:", sitemap.length);
+console.log("buildTimeCompositePages:", priority.length);
+console.log("coverage:", coverage);
 console.log("Wrote reports/page-count.json");

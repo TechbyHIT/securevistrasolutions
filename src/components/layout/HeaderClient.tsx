@@ -68,10 +68,10 @@ function WhatsAppIcon() {
 
 function navLinkClass(active: boolean, megaOpen?: boolean) {
   return cn(
-    "inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-[13px] font-semibold tracking-wide transition-colors xl:px-3 xl:text-sm",
+    "inline-flex items-center gap-1 px-2.5 py-2 text-[13px] font-semibold tracking-wide transition-colors xl:px-3 xl:text-sm",
     megaOpen || active
-      ? "bg-primary-50 text-primary-700"
-      : "text-neutral-700 hover:bg-neutral-50 hover:text-primary-600",
+      ? "text-primary-800 underline decoration-accent-500 decoration-2 underline-offset-8"
+      : "text-neutral-700 hover:text-primary-700",
   );
 }
 
@@ -175,24 +175,30 @@ export function HeaderClient() {
 
             <div className="ml-auto flex shrink-0 items-center gap-2" onMouseEnter={closeMenus}>
               <a
+                href={`tel:${BUSINESS_CONFIG.phone.raw}`}
+                className="hidden items-center gap-2 border border-[var(--border)] px-3 py-2 text-sm font-semibold text-primary-800 transition-colors hover:bg-primary-50 xl:inline-flex"
+              >
+                <PhoneIcon />
+                Call Now
+              </a>
+              <Link
+                href="/contact/"
+                className="hidden items-center bg-accent-500 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent-600 sm:inline-flex"
+              >
+                Get Free Quote
+              </Link>
+              <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Chat on WhatsApp"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md ring-2 ring-white transition-transform hover:scale-105"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white sm:h-11 sm:w-11"
               >
                 <WhatsAppIcon />
               </a>
-              <a
-                href={`tel:${BUSINESS_CONFIG.phone.raw}`}
-                className="hidden items-center gap-2 rounded-full bg-accent-500 px-4 py-2.5 text-sm font-bold text-white shadow-md transition-colors hover:bg-accent-600 sm:inline-flex md:px-5"
-              >
-                <PhoneIcon />
-                <span className="hidden md:inline">Call Now</span>
-              </a>
               <button
                 type="button"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50 lg:hidden"
+                className="inline-flex h-10 w-10 items-center justify-center border border-neutral-200 text-neutral-700 hover:bg-neutral-50 lg:hidden"
                 aria-label="Open menu"
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-nav"

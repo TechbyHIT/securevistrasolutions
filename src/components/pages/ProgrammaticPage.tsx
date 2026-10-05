@@ -7,7 +7,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { Hero } from "@/components/sections/Hero";
-import { TrustStatsBar } from "@/components/sections/TrustStatsBar";
+import { TrustPoints } from "@/components/sections/TrustPoints";
+import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
+import { Button } from "@/components/ui/Button";
 import { TableOfContents } from "@/components/sections/TableOfContents";
 import { ContentArticle } from "@/components/sections/ContentArticle";
 import { ServiceSidebar } from "@/components/sections/ServiceSidebar";
@@ -132,13 +134,14 @@ export function ProgrammaticPage({ page, breadcrumbs, showHero = true, heroImage
           description={page.introduction}
           image={heroImage ?? page.openGraphImage}
           imageAlt={page.openGraphImageAlt}
+          eyebrow="Trusted home safety & protection"
           primaryCta={{
-            label: "Call Now",
-            href: `tel:${BUSINESS_CONFIG.phone.raw}`,
+            label: "Get Free Quote",
+            href: "/contact/",
           }}
           secondaryCta={{
-            label: "WhatsApp Us",
-            href: `https://wa.me/${BUSINESS_CONFIG.whatsapp.raw}?text=${whatsappText}`,
+            label: "Call Now",
+            href: `tel:${BUSINESS_CONFIG.phone.raw}`,
           }}
         />
       ) : (
@@ -147,14 +150,28 @@ export function ProgrammaticPage({ page, breadcrumbs, showHero = true, heroImage
             <Breadcrumbs items={breadcrumbs} className="mb-4" />
             <Heading level={1}>{page.h1}</Heading>
             <p className="mt-4 max-w-3xl text-lg text-[var(--muted)]">{page.introduction}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button href="/contact/" variant="accent">
+                Get Free Quote
+              </Button>
+              <Button href={`tel:${BUSINESS_CONFIG.phone.raw}`} variant="outline">
+                Call Now
+              </Button>
+              <Button
+                href={`https://wa.me/${BUSINESS_CONFIG.whatsapp.raw}?text=${whatsappText}`}
+                variant="ghost"
+              >
+                WhatsApp
+              </Button>
+            </div>
           </Container>
         </Section>
       )}
 
       {isRichServicePage ? (
-        <Section variant="muted" className="py-6">
+        <Section className="border-b border-[var(--border)] bg-white py-8">
           <Container>
-            <TrustStatsBar cityName={cityName} />
+            <TrustPoints cityName={cityName} className="lg:grid-cols-3" />
           </Container>
         </Section>
       ) : null}
@@ -195,6 +212,15 @@ export function ProgrammaticPage({ page, breadcrumbs, showHero = true, heroImage
               {(page.pageType === "service-in-city" ? blocksAfterGallery : blocks).map((block) => (
                 <ContentArticle key={block.id} block={block} />
               ))}
+
+              {isRichServicePage ? (
+                <div id="installation-process">
+                  <Heading level={2} className="mb-4">
+                    Installation process
+                  </Heading>
+                  <ProcessTimeline locality={area?.name ?? cityName} />
+                </div>
+              ) : null}
 
               {faqs.length > 0 ? (
                 <div id="faq">

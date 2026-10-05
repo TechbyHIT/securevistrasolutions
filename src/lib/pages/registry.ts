@@ -4,10 +4,9 @@ import {
 } from "@/lib/publishing/page-factory";
 import {
   buildProgrammaticIndexablePageSample,
-  countProgrammaticIndexablePages,
 } from "@/lib/publishing/enumerate-programmatic-pages";
-import { isPageIndexable } from "@/lib/seo/is-page-indexable";
-import { SEO_CONFIG } from "@/config/seo";
+import { isSeoIndexablePage } from "@/lib/seo/is-page-sitemap-indexable";
+import { getSeoPageMatrix } from "@/lib/seo/seo-page-matrix";
 import type { PageRecord } from "@/types/page";
 import type { PublicationStatus } from "@/types/business";
 
@@ -15,10 +14,11 @@ let cachedPages: PageRecord[] | null = null;
 const lazyPageCache = new Map<string, PageRecord>();
 
 function isIndexablePage(page: PageRecord): boolean {
-  return isPageIndexable({
-    ...page,
-    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700,
-  });
+  return (
+    page.publicationStatus === "published" &&
+    page.allowIndexing &&
+    isSeoIndexablePage(page)
+  );
 }
 
 export function getProgrammaticIndexablePages(forceRefresh = false): PageRecord[] {
@@ -67,12 +67,15 @@ export function getMaterializedIndexablePages(): PageRecord[] {
   return getAllPages().filter((page) => isIndexablePage(page));
 }
 
-/** Full indexable count including lazy programmatic pages. */
+/**
+ * Authoritative indexable count = SEO page matrix size.
+ * (Not generateStaticParams, not legacy ~74k enumerator.)
+ */
 export function countIndexablePages(): number {
-  return getMaterializedIndexablePages().length + countProgrammaticIndexablePages().total;
+  return getSeoPageMatrix().length;
 }
 
-/** Materialized indexable pages — programmatic URLs use lazy sitemap enumeration. */
+/** Materialized indexable pages — programmatic URLs use the SEO matrix / sitemap. */
 export function getIndexablePages(): PageRecord[] {
   return getMaterializedIndexablePages();
 }

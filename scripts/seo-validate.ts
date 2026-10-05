@@ -44,7 +44,7 @@ const sampleSlugs = [
   "madhapur",
   "secunderabad",
   "kondapur",
-  "lb-nagar",
+  "lbnagar",
   "dilsukhnagar",
 ].filter((slug) => areas.some((a) => a.slug === slug));
 

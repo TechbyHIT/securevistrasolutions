@@ -6,20 +6,19 @@ export type NavItem = {
 };
 
 export const PRIMARY_NAV: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about/" },
   {
     label: "Services",
     href: "/services/",
     megaMenu: "services",
   },
   {
-    label: "Areas",
+    label: "Locations",
     href: "/locations/hyderabad/",
     megaMenu: "areas",
   },
-  { label: "Gallery", href: "/gallery/" },
-  { label: "Blog", href: "/blog/" },
+  { label: "About", href: "/about/" },
+  { label: "Why Us", href: "/#why-us" },
+  { label: "FAQs", href: "/faq/" },
   { label: "Contact", href: "/contact/" },
 ];
 

@@ -51,6 +51,7 @@ export const BUSINESS_CONFIG = {
   analytics: {
     googleTagManagerId: process.env.NEXT_PUBLIC_GTM_ID,
     googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID,
+    googleAdsId: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID ?? "AW-18469149509",
     metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID,
     clarityId: process.env.NEXT_PUBLIC_CLARITY_ID,
   },

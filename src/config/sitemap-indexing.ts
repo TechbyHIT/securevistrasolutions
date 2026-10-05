@@ -12,10 +12,19 @@ export const SITEMAP_MATERIALIZED_GROUPS = new Set([
   "locations",
   "guides",
   "blog",
+  "solutions",
+  "property-types",
 ]);
 
-/** Programmatic groups excluded from sitemaps (still reachable, noindex). */
-export const SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS = new Set(["service-area", "area"]);
+/**
+ * Programmatic groups excluded from sitemaps (still reachable via ISR, noindex).
+ * These are intentional thin surfaces — not "skipped valid SEO pages".
+ */
+export const SITEMAP_EXCLUDED_PROGRAMMATIC_GROUPS = new Set([
+  "service-area",
+  "area",
+  "service-area-intent",
+]);
 
 /**
  * Commercial tags only for sitemap intent URLs.

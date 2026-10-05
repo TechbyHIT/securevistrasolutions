@@ -114,58 +114,46 @@ export function InvisibleGrillsLocalityPage({ page, area, service, breadcrumbs }
       </div>
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500 text-white">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-20"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%), radial-gradient(circle at 80% 0%, rgba(196,92,38,0.45), transparent 40%)",
-          }}
-        />
+      <section className="relative overflow-hidden bg-primary-900 text-white">
         <Container className="relative grid items-center gap-10 py-12 lg:grid-cols-[1.15fr_0.85fr] lg:py-16">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary-100">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-300">
               Serving {content.locality}, {content.city}
             </p>
             <Heading level={1} className="mt-3 text-white">
               {content.h1}
             </Heading>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-50 sm:text-lg">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-100 sm:text-lg">
               {content.intro}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {TRUST_PILLS.map((pill) => (
                 <span
                   key={pill}
-                  className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white"
+                  className="border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white"
                 >
                   {pill}
                 </span>
               ))}
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button href={content.phoneHref} variant="accent" size="lg">
-                Call {BUSINESS_CONFIG.phone.display}
+              <Button href="/contact/" variant="accent" size="lg">
+                Get Free Quote
+              </Button>
+              <Button href={content.phoneHref} variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                Call Now
               </Button>
               <Button
                 href={content.whatsappHref}
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white/10"
-              >
-                WhatsApp Quote
-              </Button>
-              <Button
-                href="#high-intent"
-                variant="outline"
-                size="lg"
                 className="border-white/60 text-white hover:bg-white/10"
               >
-                Browse high-intent pages
+                WhatsApp
               </Button>
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/20">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-md)] ring-1 ring-white/15">
             <Image
               src={service.heroImage || "/images/services/invisible-grills/01-img-20251025-132727-jpg.jpeg"}
               alt={content.imageAlts[0] ?? content.h1}
