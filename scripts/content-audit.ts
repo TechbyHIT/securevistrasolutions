@@ -5,7 +5,7 @@ import { SEO_CONFIG } from "../src/config/seo";
 
 const pages = getAllPages();
 const thin = pages.filter(
-  (page) => page.wordCount < (SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700),
+  (page) => page.wordCount < (SEO_CONFIG.minimumWordCounts[page.pageType] ?? 1500),
 );
 const lowQuality = pages.filter((page) => page.qualityScore < SEO_CONFIG.minimumQualityScore);
 const unverified = pages.filter(

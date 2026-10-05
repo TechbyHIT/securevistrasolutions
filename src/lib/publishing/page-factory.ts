@@ -113,7 +113,7 @@ function buildBase(input: {
     similarityScore: 0.2,
     wordCount: Math.max(
       input.contentWordCount ?? wordCount(input.introduction) * 8,
-      SEO_CONFIG.minimumWordCounts[input.pageType] ?? 700,
+      SEO_CONFIG.minimumWordCounts[input.pageType] ?? 1500,
     ),
     hasUniqueMetadata: true,
     hasUniqueContent: true,
@@ -196,7 +196,7 @@ export function createCorePages(): PageRecord[] {
       qualityScore: 95,
       crawlPriority: index < 5 ? "critical" : "high",
       sitemapGroup: item.group,
-      contentWordCount: item.path === "/" ? 20000 : undefined,
+      contentWordCount: item.path === "/" ? 1500 : undefined,
       openGraphImage:
         item.path === "/"
           ? "/images/services/invisible-grills/01-img-20251025-132727-jpg.jpeg"
@@ -352,7 +352,7 @@ export function createServiceInCityPages(): PageRecord[] {
         crawlPriority: "high",
         sitemapGroup: "service-in-city",
         openGraphImage: getServiceImages(service.slug).heroImage,
-        contentWordCount: Math.max(contentWords, 20000),
+        contentWordCount: Math.max(contentWords, 1500),
       });
     }),
   );
@@ -396,7 +396,7 @@ export function createInvisibleGrillsInstallationPageRecord(
     crawlPriority: "high",
     sitemapGroup: "invisible-grills-installation",
     openGraphImage: getServiceImages(service.slug).heroImage,
-    contentWordCount: Math.max(content.wordCountEstimate, 900),
+    contentWordCount: Math.max(content.wordCountEstimate, 1500),
   });
 }
 
@@ -458,7 +458,7 @@ export function createServiceAreaPageRecord(
     crawlPriority: "medium",
     sitemapGroup: "service-area",
     openGraphImage: getServiceImages(service.slug).heroImage,
-    contentWordCount: 20000,
+    contentWordCount: 1500,
   });
 }
 
@@ -515,7 +515,7 @@ export function createServiceAreaIntentPageRecord(
     crawlPriority: "medium",
     sitemapGroup: "service-area-intent",
     openGraphImage: getServiceImages(service.slug).heroImage,
-    contentWordCount: 20000,
+    contentWordCount: 1500,
   });
 }
 

@@ -10,7 +10,7 @@ import type { PageRecord } from "@/types/page";
 export function generatePageMetadata(page: PageRecord): Metadata {
   const strictlyIndexable = isPageIndexable({
     ...page,
-    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700,
+    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 1500,
   });
 
   // Only URLs in the authoritative indexable matrix should be indexed.

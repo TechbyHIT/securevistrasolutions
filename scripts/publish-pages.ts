@@ -48,7 +48,7 @@ for (const page of registry.pages) {
   const eligible = isPageIndexable({
     ...page,
     publicationStatus: "published",
-    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 700,
+    minimumRequiredWordCount: SEO_CONFIG.minimumWordCounts[page.pageType] ?? 1500,
   });
 
   if (!eligible) {

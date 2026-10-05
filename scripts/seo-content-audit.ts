@@ -107,7 +107,7 @@ for (const area of sampleAreas) {
   const forbiddenHits = FORBIDDEN.reduce((n, re) => n + (re.test(text) ? 1 : 0), 0);
   const wordCount = text.split(/\s+/).filter(Boolean).length;
   const issues: string[] = [];
-  if (wordCount < 700) issues.push("thin-content");
+  if (wordCount < 1500) issues.push("thin-content");
   if (locRatio > 0.22) issues.push("location-dominant");
   if (forbiddenHits > 0) issues.push("forbidden-phrases");
   if (page && !isSeoIndexablePage(page)) issues.push("not-indexable");
@@ -184,7 +184,7 @@ for (const service of services.slice(0, 3)) {
   const locRatio = locationTokenRatio(text, [city.name, "Hyderabad"]);
   const forbiddenHits = FORBIDDEN.reduce((n, re) => n + (re.test(text) ? 1 : 0), 0);
   const issues: string[] = [];
-  if (wordCount < 500) issues.push("thin-content");
+  if (wordCount < 1500) issues.push("thin-content");
   if (locRatio > 0.25) issues.push("location-dominant");
   if (forbiddenHits > 0) issues.push("forbidden-phrases");
   if (!sitemap.has(path)) issues.push("missing-sitemap");

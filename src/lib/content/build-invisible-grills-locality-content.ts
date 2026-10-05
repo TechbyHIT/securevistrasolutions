@@ -19,6 +19,7 @@ import {
   localitySeed,
   shuffleBySeed,
 } from "@/lib/content/build-unique-locality-copy";
+import { mergeLongformIntoPageContent } from "@/lib/content/build-ultra-longform-seo";
 import type { Area } from "@/types/location";
 import type { ContentBlock, FaqItem } from "@/types/content";
 
@@ -483,19 +484,36 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     },
   ];
 
-  // Lightweight related blocks — no 45k-word padding bank
-  const longformBlocks: ContentBlock[] = [
+  // Merge technical longform so every locality page meets the 1,500-word floor
+  const longformMerged = mergeLongformIntoPageContent(
     {
-      id: "service-coverage",
-      heading: `Service coverage around ${locality}`,
-      paragraphs: [
-        `${company} serves ${locality} within ${city}${area.district ? `, ${area.district}` : ""}${area.state ? `, ${area.state}` : ""}.`,
-        nearbyNames.length
-          ? `Nearby localities with active coverage include ${nearbyNames.slice(0, 8).join(", ")}.`
-          : `Share your landmark in ${locality} when you enquire so we confirm the next inspection slot.`,
+      blocks: [
+        {
+          id: "service-coverage",
+          heading: `Service coverage around ${locality}`,
+          paragraphs: [
+            `${company} serves ${locality} within ${city}${area.district ? `, ${area.district}` : ""}${area.state ? `, ${area.state}` : ""}.`,
+            nearbyNames.length
+              ? `Nearby localities with active coverage include ${nearbyNames.slice(0, 8).join(", ")}.`
+              : `Share your landmark in ${locality} when you enquire so we confirm the next inspection slot.`,
+          ],
+        },
       ],
+      faqs,
     },
-  ];
+    {
+      topic: "Invisible Grills Installation",
+      placeName: locality,
+      cityName: city,
+      company,
+      serviceSlug: "invisible-grills",
+      areaSlug: area.slug,
+      pageType: "invisible-grills-installation-in-locality",
+    },
+  );
+
+  const longformBlocks: ContentBlock[] = longformMerged.blocks;
+  const enrichedFaqs = longformMerged.faqs;
 
   const tableOfContents = [
     { label: "Overview", href: "#overview" },
@@ -508,6 +526,7 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     { label: "Process", href: "#process" },
     { label: "Gallery", href: "#gallery" },
     { label: "Related guides", href: "#related-guides" },
+    ...longformMerged.tableOfContents.slice(0, 8),
     { label: "FAQs", href: "#faqs" },
     { label: "Get a quote", href: "#quote" },
   ];
@@ -518,19 +537,22 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     `Hi, I need invisible grills installation in ${locality}. Please share a free site visit.`,
   );
 
-  const wordCountEstimate = estimateWords([
-    ...introExtended,
-    ...whyLocalityExtended,
-    ...pricingNotes,
-    ...materialsNotes,
-    ...comparisonNotes,
-    ...maintenanceNotes,
-    ...processParagraphs,
-    ...faqs.flatMap((f) => [f.question, f.answer]),
-    cta,
-    ...WHY_CHOOSE_US,
-    ...applications,
-  ]);
+  const wordCountEstimate = Math.max(
+    longformMerged.wordCount,
+    estimateWords([
+      ...introExtended,
+      ...whyLocalityExtended,
+      ...pricingNotes,
+      ...materialsNotes,
+      ...comparisonNotes,
+      ...maintenanceNotes,
+      ...processParagraphs,
+      ...enrichedFaqs.flatMap((f) => [f.question, f.answer]),
+      cta,
+      ...WHY_CHOOSE_US,
+      ...applications,
+    ]),
+  );
 
   return {
     locality,
@@ -558,7 +580,7 @@ export function buildInvisibleGrillsLocalityContent(area: Area): InvisibleGrills
     longformBlocks,
     nearbyAreas,
     moreAreas,
-    faqs,
+    faqs: enrichedFaqs,
     highIntentLinks,
     nearbyLocalityLinks,
     moreLocalityLinks,
